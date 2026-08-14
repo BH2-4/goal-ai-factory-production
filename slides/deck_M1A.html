@@ -1,0 +1,144 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>质源侦探 RootCause Cop · M1A 审核稿</title><style>
+:root{--w:1280px;--h:720px}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;background:#08090c;overflow:hidden;
+     display:flex;align-items:center;justify-content:center}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.deck{width:var(--w);height:var(--h);position:relative;box-shadow:0 30px 90px rgba(0,0,0,.6)}
+.slide{position:absolute;inset:0;padding:56px 72px 64px;display:none;flex-direction:column;overflow:hidden}
+.slide.active{display:flex}
+/* ---------- 主题：终末地 工业HUD ---------- */
+body[data-theme=endfield]{--bg:#E9ECEE;--panel:#F8F9FA;--ink:#16181D;--muted:#5B6472;--line:#C6CCD2;
+ --amber:#E8630A;--steel:#3D5A6C;--signal:var(--pc);--chip:#16181D;--chiptx:#F5F7F8}
+body[data-theme=endfield] .deck{background:
+ radial-gradient(1100px 500px at 85% -10%,rgba(62,90,108,.10),transparent 60%),
+ repeating-linear-gradient(0deg,transparent 0 47px,rgba(22,24,29,.045) 47px 48px),
+ repeating-linear-gradient(90deg,transparent 0 47px,rgba(22,24,29,.045) 47px 48px),var(--bg);
+ color:var(--ink)}
+body[data-theme=endfield] .contour{position:absolute;inset:0;opacity:.5;pointer-events:none}
+body[data-theme=endfield] .hazbar{position:absolute;left:0;right:0;top:0;height:8px;
+ background:repeating-linear-gradient(-45deg,var(--ink) 0 14px,var(--amber) 14px 28px)}
+body[data-theme=endfield] .brk{border:2px solid var(--ink);position:relative;background:var(--panel)}
+body[data-theme=endfield] .brk::before,body[data-theme=endfield] .brk::after{content:"";position:absolute;width:14px;height:14px;border:3px solid var(--amber)}
+body[data-theme=endfield] .brk::before{left:-3px;top:-3px;border-right:none;border-bottom:none}
+body[data-theme=endfield] .brk::after{right:-3px;bottom:-3px;border-left:none;border-top:none}
+body[data-theme=endfield] .code{color:var(--amber);letter-spacing:.14em}
+body[data-theme=endfield] .chip{background:var(--chip);color:var(--chiptx)}
+body[data-theme=endfield] h1{font-size:56px;letter-spacing:.02em}
+body[data-theme=endfield] h2{font-size:34px;border-left:10px solid var(--signal);padding-left:16px;margin-bottom:22px}
+body[data-theme=endfield] .card{background:var(--panel);border:1.5px solid var(--line);border-top:4px solid var(--signal)}
+body[data-theme=endfield] .tag{border:1.5px solid var(--ink);color:var(--ink);background:transparent}
+/* ---------- 主题：绝区零 涩谷朋克 ---------- */
+body[data-theme=zzz]{--bg:#0F1014;--panel:#17181F;--ink:#F5F7FA;--muted:#9BA1AC;--line:#2A2C36;
+ --amber:#FFB020;--signal:var(--neon)}
+body[data-theme=zzz] .deck{background:
+ radial-gradient(900px 420px at 90% 0%,color-mix(in srgb,var(--neon) 12%,transparent),transparent 60%),
+ repeating-linear-gradient(45deg,transparent 0 26px,rgba(245,247,250,.03) 26px 52px),var(--bg);color:var(--ink)}
+body[data-theme=zzz] .dots{position:absolute;inset:auto 0 0 0;height:200px;pointer-events:none;opacity:.5;
+ background-image:radial-gradient(color-mix(in srgb,var(--neon) 55%,transparent) 1.6px,transparent 1.6px);background-size:18px 18px;
+ -webkit-mask-image:linear-gradient(180deg,transparent,#000 70%)}
+body[data-theme=zzz] .hazbar{position:absolute;left:0;right:0;top:0;height:10px;background:repeating-linear-gradient(-45deg,var(--neon) 0 16px,#0F1014 16px 32px)}
+body[data-theme=zzz] .brk{border:3px solid var(--ink);background:var(--panel);box-shadow:8px 8px 0 color-mix(in srgb,var(--neon) 65%,#000)}
+body[data-theme=zzz] .code{color:var(--neon);letter-spacing:.22em;text-shadow:0 0 14px color-mix(in srgb,var(--neon) 55%,transparent)}
+body[data-theme=zzz] .chip{background:var(--neon);color:#0F1014;transform:rotate(-1.2deg);font-weight:700}
+body[data-theme=zzz] h1{font-size:58px;transform:rotate(-.6deg);text-shadow:4px 4px 0 color-mix(in srgb,var(--neon) 70%,#000)}
+body[data-theme=zzz] h2{font-size:36px;margin-bottom:22px;display:inline-block;background:var(--ink);color:#0F1014;padding:2px 18px;transform:rotate(-.5deg)}
+body[data-theme=zzz] .card{background:var(--panel);border:2px solid var(--line);border-left:6px solid var(--neon)}
+body[data-theme=zzz] .tag{border:2px solid var(--neon);color:var(--neon);background:rgba(0,0,0,.25)}
+/* ---------- 通用组件 ---------- */
+.footer{position:absolute;left:72px;right:72px;bottom:20px;display:flex;justify-content:space-between;
+ font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:8px}
+.pager{position:absolute;right:24px;bottom:52px;display:flex;gap:8px;z-index:5}
+.pager button{width:44px;height:36px;font-size:18px;cursor:pointer;border:2px solid var(--muted);
+ background:transparent;color:inherit;border-radius:4px}
+.pager button:hover{border-color:var(--signal);color:var(--signal)}
+h1{font-weight:800;line-height:1.15}h2{font-weight:800}
+.chip{display:inline-block;padding:4px 14px;font-size:14px;margin-right:10px;border-radius:3px}
+.tag{display:inline-block;padding:2px 10px;font-size:13px;margin:2px 6px 2px 0;border-radius:3px}
+.card{padding:18px 20px;border-radius:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card h3{font-size:19px;margin-bottom:10px}
+.card li{margin:6px 0 6px 18px;font-size:15.5px;line-height:1.55}
+.md{font-size:16.5px;line-height:1.75}
+.md p{margin:8px 0}.md li{margin:6px 0 6px 20px}
+.md table{border-collapse:collapse;width:100%;margin:12px 0;font-size:15px}
+.md th,.md td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+.md th{background:color-mix(in srgb,var(--signal) 16%,transparent);font-weight:700}
+.md strong{color:var(--signal)}
+.quote{border-left:5px solid var(--signal);background:color-mix(in srgb,var(--signal) 8%,transparent);
+ padding:12px 16px;margin:10px 0;font-size:15.5px;border-radius:0 4px 4px 0}
+.kpi{font-size:15px}.kpi b{font-size:26px;color:var(--signal)}
+.cover{justify-content:center;gap:26px}
+.cover .sub{font-size:26px;color:var(--muted);font-weight:600}
+.cover .meta{display:flex;gap:0;flex-wrap:wrap;margin-top:8px}
+.pipeline{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;align-items:stretch}
+.step{border:1.5px solid var(--line);border-radius:4px;padding:10px 8px;font-size:13.5px;line-height:1.4;
+ background:color-mix(in srgb,var(--signal) 6%,transparent);min-height:118px}
+.step b{display:block;color:var(--signal);margin-bottom:6px;font-size:14px}
+.gate{color:var(--amber);font-weight:700}
+.loop{color:var(--signal);font-weight:700}
+/* 打印导出 PDF */
+@media print{
+ body{background:#fff;display:block;overflow:visible}
+ .deck{width:1280px;height:auto;box-shadow:none}
+ .slide{display:flex;position:relative;inset:auto;width:1280px;height:720px;page-break-after:always}
+ .pager{display:none}
+}
+</style></head><body data-theme="zzz" style="--pc:#EA580C;--neon:#35E0E8"><div class="deck"><div class="hazbar"></div><div class="dots"></div><section class="slide cover" id="s1"><div class="code mono">ZZ-06 // GOAI · 无界应用 · AI+工业制造</div><h1>质源侦探 RootCause Cop</h1><div class="sub">质量异常根因链 · 证据侦探墙</div><div class="meta"><span class="chip">P1 · M1A</span><span class="chip">作品层 86.6 分</span><span class="chip">作品层 4/9 · 引擎模块</span></div><div class="brk" style="padding:14px 20px;max-width:900px">锚定场景：S19 · 半导体/精密机加 SPC</div><div style="margin-top:6px"><span class="tag">微循环自主</span><span class="tag">宏流程门禁</span><span class="tag">辅助建议系统 · 不替代专业决策</span></div><div class="footer"><span>对应 PRD 封面</span><span class="mono" id="pg0"></span></div></section>
+<section class="slide " id="s2"><h2>01 场景锚定</h2><div class="md" style="overflow:auto"><p>场景锚定</p>
+<p>S19 半导体/精密机加 SPC 根因（90.7）＞ S21 化工 TEP（86.4）＞ S20 注塑工艺（85.2）。</p>
+<p><strong>选 S19</strong>：SECOM 公开数据集+自建四表证据链最硬；离散制造贴"批次-工单"叙事；根因引擎可复用给 P2 的 M2-B（售后 8D）。落选理由：S21 是学术常见基准、差异化弱；S20 注塑工艺 AI 商业方案多。</p></div><div class="footer"><span>对应 PRD §1 场景锚定</span><span class="mono" id="pg0"></span></div></section>
+<section class="slide " id="s3"><h2>02 目标用户与痛点</h2><div class="md" style="overflow:auto"><p>目标用户与痛点</p>
+<ul>
+<li>用户：半导体/精密机加厂质量工程师（主用户）、工艺/设备工程师（协同）。</li>
+<li>痛点（量化假设）：单批异常根因定位 4-48 小时（跨 QMS/MES/工艺/设备四系统）；8D 报告写作 2-4 小时；同类异常复发因复盘缺失。</li>
+</ul></div><div class="footer"><span>对应 PRD §3 用户与痛点</span><span class="mono" id="pg0"></span></div></section>
+<section class="slide " id="s4"><h2>03 产品定位</h2><div class="md" style="overflow:auto"><p>产品定位（一句话）</p>
+<p>质量工程师的根因侦探：SPC 告警→四源数据追溯→假设逐条验证→8D 初稿，把"翻五个系统找原因"压成一个按钮。</p></div><div class="footer"><span>对应 PRD §2 产品定位</span><span class="mono" id="pg0"></span></div></section>
+<section class="slide " id="s5"><h2>04 Agent 编排 · 微循环与宏门禁</h2><div class="md" style="overflow:auto"><p>Agent 编排（4 Agent）</p>
+<table><thead><tr><th>Agent</th><th>职责（微循环内自主）</th></tr></thead><tbody>
+<tr><td>值守 Agent</td><td>监听 SPC 控制图告警与规则触发，判定异常类型与影响面</td></tr>
+<tr><td>数据侦探 Agent</td><td>四源拉取与对齐：批次谱系/工艺参数窗口/设备日志/来料检验</td></tr>
+<tr><td>根因推理 Agent</td><td>假设生成→逐条验证→证据链+置信度排序，"未验证假设"单列</td></tr>
+<tr><td>8D 撰写 Agent</td><td>D1-D8 结构化初稿，附证据引用与人工待办（D4 根因确认留白）</td></tr>
+</tbody></table>
+<ul>
+<li><strong>微循环定义</strong>：单次告警触发的"追溯-归因-草稿"推理链全程自主。</li>
+<li><strong>宏门禁点</strong>：①根因确认（质量工程师）②处置措施与批次放行（质量负责人）。</li>
+</ul></div><div class="footer"><span>对应 PRD §4 Agent 编排</span><span class="mono" id="pg0"></span></div></section>
+<section class="slide " id="s6"><h2>05 任务闭环 7 步映射</h2><div class="pipeline"><div class="step"><b>1. 任务输入</b></div><div class="step"><b>2. 意图理解</b></div><div class="step"><b>3. 任务规划</b></div><div class="step"><b>4. 能力调用</b></div><div class="step"><b>5. 结果交付</b></div><div class="step"><b>6. 验证反馈</b></div><div class="step"><b>7. 安全边界</b></div></div><div class="md" style="margin-top:18px"><p>任务闭环 7 步映射（手册 8.2）</p>
+<p>输入=SPC 告警/人工触发 → 意图理解=异常类型、批次与影响面 → 任务规划=四源追溯计划 → 能力调用=QMS/MES/工艺库/设备日志查询工具 → 结果交付=证据链+8D 初稿 → 验证反馈=历史注入案例回放命中率+工程师确认 → 安全边界=不替代放行与停线决策。</p></div><div class="footer"><span>对应 PRD §5 闭环 7 步（手册 8.2）</span><span class="mono" id="pg0"></span></div></section>
+<section class="slide " id="s7"><h2>06 数据策略 ＆ 评测指标</h2><div class="grid2"><div class="card md" style="overflow:auto"><p>数据策略</p>
+<p>UCI SECOM（1567×591，含缺陷标签）做检出与特征归因展示；自建四表模拟数据集（批次谱系/工艺参数/设备日志/来料检验）并注入已知根因作 ground truth；模拟逻辑写入合规文档（FAQ Q7）。</p></div><div class="card md" style="overflow:auto"><p>评测指标</p>
+<p>注入根因 Top-3 命中率 ≥80%；证据引用准确率 ≥95%（人工抽检）；8D 字段完整率 100%；单次追溯时长 ≤10 分钟（对比人工小时级，模拟口径）。</p></div></div><div class="footer"><span>对应 PRD §6 数据策略 ＋ §7 评测指标</span><span class="mono" id="pg0"></span></div></section>
+<section class="slide " id="s8"><h2>07 安全合规口径</h2><div class="md" style="overflow:auto"><p>安全合规口径</p>
+<p>仅辅助分析：不替代质量负责人对批次放行/停线的判断（手册 9.3、FAQ Q13）；数据为公开+模拟并披露；证据链可追溯可审计。</p></div><div class="footer"><span>对应 PRD §8 安全合规</span><span class="mono" id="pg0"></span></div></section>
+<section class="slide " id="s9"><h2>08 三档赛事排期</h2><div class="md" style="overflow:auto"><p>三档赛事排期</p>
+<ul>
+<li>初赛（8.16 前）：P1 叙事页（根因链为 P1 主链）</li>
+<li>复赛（9.3 前）：质量一条链可运行（告警→证据链→8D→措施工单草案）</li>
+<li>决赛（9.22）：现场注入新告警演示+引擎复用说明（喂给 M2-B 售后 8D）</li>
+</ul></div><div class="footer"><span>对应 PRD §9 三档排期</span><span class="mono" id="pg0"></span></div></section>
+<section class="slide " id="s10"><h2>09 开源复用物 ＆ 风险对策</h2><div class="grid2"><div class="card md" style="overflow:auto"><p>开源复用物</p>
+<p>制造四表模拟器（含根因注入）、根因推理 Prompt 与验证工具模板、8D schema。</p></div><div class="card md" style="overflow:auto"><p>风险与对策</p>
+<p>归因准确性质疑 → 注入式 ground truth 评测自证；报告模板化 → 证据引用+未验证假设清单+人工修订闭环；四源数据展示复杂 → 归因时间轴+相关性矩阵可视化。</p></div></div><div class="footer"><span>对应 PRD §10 开源复用 ＋ §11 风险</span><span class="mono" id="pg0"></span></div></section>
+<section class="slide " id="s11"><h2>10 参赛简介（≤500 字 · 八要素）</h2><div class="brk" style="padding:26px 32px;overflow:auto;max-height:440px" class="md"><div class="md"><p>参赛简介（≤500 字，八要素）</p>
+<p><strong>项目名称</strong>：质源侦探 RootCause Cop——质量异常根因追溯智能体。</p>
+<p><strong>行业赛题</strong>：AI+工业制造。<strong>目标用户</strong>：半导体与精密机加厂质量工程师。</p>
+<p><strong>核心问题</strong>：SPC 告警后需跨质检、批次、工艺、设备四套系统人工比对，根因定位数小时至数天，8D 报告耗时。</p>
+<p><strong>解决方案</strong>：四 Agent 链——值守 Agent 监听 SPC 告警；数据侦探 Agent 对齐批次谱系、工艺参数、设备日志与来料检验四源数据；根因推理 Agent 生成假设并逐条验证，形成带置信度的证据链；8D 撰写 Agent 产出结构化初稿并预留人工确认位。</p>
+<p><strong>创新点</strong>：每个结论附证据链与"未验证假设"清单，解释性内建；根因确认与批次放行始终由质量负责人拍板；引擎可复用于售后批次分析。</p>
+<p><strong>开放/复用价值</strong>：开源四表模拟器（含根因注入）、根因模板与 8D schema。</p>
+<p><strong>当前进展</strong>：方案设计完成，基于公开数据集的原型开发中，提交时附追溯演示。</p></div></div><div class="footer"><span>对应 PRD §12 参赛简介</span><span class="mono" id="pg0"></span></div></section>
+<section class="slide " id="s12"><h2>审核记录（供你填写）</h2><div class="grid3"><div class="card"><h3>✓ 亮点</h3><p style="color:var(--muted)">叙事/设计上最打动你的点…</p></div><div class="card"><h3>△ 顾虑</h3><p style="color:var(--muted)">可信度/工作量/合规疑虑…</p></div><div class="card"><h3>? 疑问</h3><p style="color:var(--muted)">待我补充说明的问题…</p></div></div><div class="quote" style="margin-top:22px">审核结论：☐ 转正式 PPT　☐ 修改后再审　☐ 冻结为模块</div><div class="footer"><span>对应 PRD 审核页</span><span class="mono" id="pg0"></span></div></section><div class="pager"><button onclick="show(cur-1)">◀</button><button onclick="show(cur+1)">▶</button></div><div class="footer" style="z-index:4"><span>ZZ-06 · M1A 审核稿</span><span class="mono" id="pg">01 / 12</span></div></div><script>
+const slides=[...document.querySelectorAll('.slide')];let cur=0;
+const show=i=>{cur=Math.max(0,Math.min(slides.length-1,i));
+ slides.forEach((s,k)=>s.classList.toggle('active',k===cur));
+ document.getElementById('pg').textContent=String(cur+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');};
+document.addEventListener('keydown',e=>{
+ if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();show(cur+1)}
+ if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(cur-1)}
+ if(e.key==='Home')show(0); if(e.key==='End')show(slides.length-1);});
+</script></body></html>
