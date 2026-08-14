@@ -50,7 +50,7 @@ button{font:inherit}
 .slide{width:100vw;height:100vh;height:100dvh;overflow:hidden;scroll-snap-align:start;
  display:flex;flex-direction:column;position:relative;isolation:isolate;border-bottom:1px solid var(--line);
  background-color:var(--paper);background-image:linear-gradient(rgba(23,24,22,.035) 1px,transparent 1px),
- linear-gradient(90deg,rgba(23,24,22,.035) 1px,transparent 1px);background-size:32px 32px}
+ linear-gradient(90deg,rgba(23,24,22,.028) 1px,transparent 1px);background-size:64px 64px}
 .slide--dark{color:#f7f8f3;background-color:#1c1f1b;
  background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),
  linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px)}
