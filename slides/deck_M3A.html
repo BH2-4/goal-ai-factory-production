@@ -1,144 +1,184 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>齐途 QiPlan · M3A 审核稿</title><style>
-:root{--w:1280px;--h:720px}
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%}
-body{font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;background:#08090c;overflow:hidden;
-     display:flex;align-items:center;justify-content:center}
-.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
-.deck{width:var(--w);height:var(--h);position:relative;box-shadow:0 30px 90px rgba(0,0,0,.6)}
-.slide{position:absolute;inset:0;padding:56px 72px 64px;display:none;flex-direction:column;overflow:hidden}
-.slide.active{display:flex}
-/* ---------- 主题：终末地 工业HUD ---------- */
-body[data-theme=endfield]{--bg:#E9ECEE;--panel:#F8F9FA;--ink:#16181D;--muted:#5B6472;--line:#C6CCD2;
- --amber:#E8630A;--steel:#3D5A6C;--signal:var(--pc);--chip:#16181D;--chiptx:#F5F7F8}
-body[data-theme=endfield] .deck{background:
- radial-gradient(1100px 500px at 85% -10%,rgba(62,90,108,.10),transparent 60%),
- repeating-linear-gradient(0deg,transparent 0 47px,rgba(22,24,29,.045) 47px 48px),
- repeating-linear-gradient(90deg,transparent 0 47px,rgba(22,24,29,.045) 47px 48px),var(--bg);
- color:var(--ink)}
-body[data-theme=endfield] .contour{position:absolute;inset:0;opacity:.5;pointer-events:none}
-body[data-theme=endfield] .hazbar{position:absolute;left:0;right:0;top:0;height:8px;
- background:repeating-linear-gradient(-45deg,var(--ink) 0 14px,var(--amber) 14px 28px)}
-body[data-theme=endfield] .brk{border:2px solid var(--ink);position:relative;background:var(--panel)}
-body[data-theme=endfield] .brk::before,body[data-theme=endfield] .brk::after{content:"";position:absolute;width:14px;height:14px;border:3px solid var(--amber)}
-body[data-theme=endfield] .brk::before{left:-3px;top:-3px;border-right:none;border-bottom:none}
-body[data-theme=endfield] .brk::after{right:-3px;bottom:-3px;border-left:none;border-top:none}
-body[data-theme=endfield] .code{color:var(--amber);letter-spacing:.14em}
-body[data-theme=endfield] .chip{background:var(--chip);color:var(--chiptx)}
-body[data-theme=endfield] h1{font-size:56px;letter-spacing:.02em}
-body[data-theme=endfield] h2{font-size:34px;border-left:10px solid var(--signal);padding-left:16px;margin-bottom:22px}
-body[data-theme=endfield] .card{background:var(--panel);border:1.5px solid var(--line);border-top:4px solid var(--signal)}
-body[data-theme=endfield] .tag{border:1.5px solid var(--ink);color:var(--ink);background:transparent}
-/* ---------- 主题：绝区零 涩谷朋克 ---------- */
-body[data-theme=zzz]{--bg:#0F1014;--panel:#17181F;--ink:#F5F7FA;--muted:#9BA1AC;--line:#2A2C36;
- --amber:#FFB020;--signal:var(--neon)}
-body[data-theme=zzz] .deck{background:
- radial-gradient(900px 420px at 90% 0%,color-mix(in srgb,var(--neon) 12%,transparent),transparent 60%),
- repeating-linear-gradient(45deg,transparent 0 26px,rgba(245,247,250,.03) 26px 52px),var(--bg);color:var(--ink)}
-body[data-theme=zzz] .dots{position:absolute;inset:auto 0 0 0;height:200px;pointer-events:none;opacity:.5;
- background-image:radial-gradient(color-mix(in srgb,var(--neon) 55%,transparent) 1.6px,transparent 1.6px);background-size:18px 18px;
- -webkit-mask-image:linear-gradient(180deg,transparent,#000 70%)}
-body[data-theme=zzz] .hazbar{position:absolute;left:0;right:0;top:0;height:10px;background:repeating-linear-gradient(-45deg,var(--neon) 0 16px,#0F1014 16px 32px)}
-body[data-theme=zzz] .brk{border:3px solid var(--ink);background:var(--panel);box-shadow:8px 8px 0 color-mix(in srgb,var(--neon) 65%,#000)}
-body[data-theme=zzz] .code{color:var(--neon);letter-spacing:.22em;text-shadow:0 0 14px color-mix(in srgb,var(--neon) 55%,transparent)}
-body[data-theme=zzz] .chip{background:var(--neon);color:#0F1014;transform:rotate(-1.2deg);font-weight:700}
-body[data-theme=zzz] h1{font-size:58px;transform:rotate(-.6deg);text-shadow:4px 4px 0 color-mix(in srgb,var(--neon) 70%,#000)}
-body[data-theme=zzz] h2{font-size:36px;margin-bottom:22px;display:inline-block;background:var(--ink);color:#0F1014;padding:2px 18px;transform:rotate(-.5deg)}
-body[data-theme=zzz] .card{background:var(--panel);border:2px solid var(--line);border-left:6px solid var(--neon)}
-body[data-theme=zzz] .tag{border:2px solid var(--neon);color:var(--neon);background:rgba(0,0,0,.25)}
-/* ---------- 通用组件 ---------- */
-.footer{position:absolute;left:72px;right:72px;bottom:20px;display:flex;justify-content:space-between;
- font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:8px}
-.pager{position:absolute;right:24px;bottom:52px;display:flex;gap:8px;z-index:5}
-.pager button{width:44px;height:36px;font-size:18px;cursor:pointer;border:2px solid var(--muted);
- background:transparent;color:inherit;border-radius:4px}
-.pager button:hover{border-color:var(--signal);color:var(--signal)}
-h1{font-weight:800;line-height:1.15}h2{font-weight:800}
-.chip{display:inline-block;padding:4px 14px;font-size:14px;margin-right:10px;border-radius:3px}
-.tag{display:inline-block;padding:2px 10px;font-size:13px;margin:2px 6px 2px 0;border-radius:3px}
-.card{padding:18px 20px;border-radius:4px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.card h3{font-size:19px;margin-bottom:10px}
-.card li{margin:6px 0 6px 18px;font-size:15.5px;line-height:1.55}
-.md{font-size:16.5px;line-height:1.75}
-.md p{margin:8px 0}.md li{margin:6px 0 6px 20px}
-.md table{border-collapse:collapse;width:100%;margin:12px 0;font-size:15px}
-.md th,.md td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
-.md th{background:color-mix(in srgb,var(--signal) 16%,transparent);font-weight:700}
-.md strong{color:var(--signal)}
-.quote{border-left:5px solid var(--signal);background:color-mix(in srgb,var(--signal) 8%,transparent);
- padding:12px 16px;margin:10px 0;font-size:15.5px;border-radius:0 4px 4px 0}
-.kpi{font-size:15px}.kpi b{font-size:26px;color:var(--signal)}
-.cover{justify-content:center;gap:26px}
-.cover .sub{font-size:26px;color:var(--muted);font-weight:600}
-.cover .meta{display:flex;gap:0;flex-wrap:wrap;margin-top:8px}
-.pipeline{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;align-items:stretch}
-.step{border:1.5px solid var(--line);border-radius:4px;padding:10px 8px;font-size:13.5px;line-height:1.4;
- background:color-mix(in srgb,var(--signal) 6%,transparent);min-height:118px}
-.step b{display:block;color:var(--signal);margin-bottom:6px;font-size:14px}
-.gate{color:var(--amber);font-weight:700}
-.loop{color:var(--signal);font-weight:700}
-/* 打印导出 PDF */
-@media print{
- body{background:#fff;display:block;overflow:visible}
- .deck{width:1280px;height:auto;box-shadow:none}
- .slide{display:flex;position:relative;inset:auto;width:1280px;height:720px;page-break-after:always}
- .pager{display:none}
-}
-</style></head><body data-theme="endfield" style="--pc:#2563EB;--neon:#2563EB"><div class="deck"><div class="hazbar"></div><svg class="contour" viewBox="0 0 1280 720" preserveAspectRatio="none"><g fill="none" stroke="#3D5A6C" stroke-opacity=".13"><path d="M-40 620 Q 300 480 640 560 T 1340 520"/><path d="M-40 660 Q 320 530 660 600 T 1340 570"/><path d="M-40 700 Q 340 580 700 640 T 1340 620"/><path d="M900 -40 Q 1050 200 980 420 T 1120 760"/><path d="M960 -40 Q 1120 210 1040 430 T 1180 760"/></g></svg><section class="slide cover" id="s1"><div class="code mono">ENF-04 // GOAI · 无界应用 · AI+工业制造</div><h1>齐途 QiPlan</h1><div class="sub">齐套核算+插单冲突解释 ★主推</div><div class="meta"><span class="chip">P3 · M3A</span><span class="chip">作品层 89.7 分</span><span class="chip">作品层 3/9 · 第一梯队</span></div><div class="brk" style="padding:14px 20px;max-width:900px">锚定场景：S10 · 机械/汽配二级供应商</div><div style="margin-top:6px"><span class="tag">微循环自主</span><span class="tag">宏流程门禁</span><span class="tag">辅助建议系统 · 不替代专业决策</span></div><div class="footer"><span>对应 PRD 封面</span><span class="mono" id="pg0"></span></div></section>
-<section class="slide " id="s2"><h2>01 场景锚定</h2><div class="md" style="overflow:auto"><p>场景锚定</p>
-<p>S10 机械/汽配二级供应商（90.5）＞ S11 PCB/SMT（87.3）＞ S12 包装印刷（86.1）。</p>
-<p><strong>选 S10</strong>：离散机械/汽配最贴官方六要素叙事；BOM 三层结构适中，便于做依赖图式解释；与 M3-C/M3-B 同厂闭环。落选理由：S11 电子参赛密度高且替代料规则复杂；S12 物料域过简单。</p></div><div class="footer"><span>对应 PRD §1 场景锚定</span><span class="mono" id="pg0"></span></div></section>
-<section class="slide " id="s3"><h2>02 目标用户与痛点</h2><div class="md" style="overflow:auto"><p>目标用户与痛点</p>
-<ul>
-<li>用户：计划员/物控（日常使用者）、销售（交期承诺方）、车间主任（执行方）。</li>
-<li>痛点（量化假设）：插单评估靠 Excel+电话，单次 ≥2 小时；缺料在投产前 1-2 天才暴露；被延订单无解释导致销售与产线互斥。</li>
-</ul></div><div class="footer"><span>对应 PRD §3 用户与痛点</span><span class="mono" id="pg0"></span></div></section>
-<section class="slide " id="s4"><h2>03 产品定位</h2><div class="md" style="overflow:auto"><p>产品定位（一句话）</p>
-<p>中小机加/汽配厂的计划副驾：求解器管最优化，LLM 管交互与解释——主打插单冲突解释与"动作包"交付，计划权始终在计划员手里。</p></div><div class="footer"><span>对应 PRD §2 产品定位</span><span class="mono" id="pg0"></span></div></section>
-<section class="slide " id="s5"><h2>04 Agent 编排 · 微循环与宏门禁</h2><div class="md" style="overflow:auto"><p>Agent 编排（3+1 Agent）</p>
-<table><thead><tr><th>Agent</th><th>职责（微循环内自主）</th></tr></thead><tbody>
-<tr><td>齐套核算 Agent</td><td>订单→三层 BOM 展开→毛/净需求→缺口清单（MRP 逻辑，程序化可校验）</td></tr>
-<tr><td>排产求解 Agent</td><td>OR-Tools 约束求解，输出可行排产与被延订单（LLM 不做数值计算）</td></tr>
-<tr><td>冲突解释 Agent</td><td>延期归因（缺哪个料/哪台机满负荷/哪班次人不够）+替代方案对比</td></tr>
-<tr><td>采购联动 Agent</td><td>（接 M3-B）缺口→请购草案，形成动作包</td></tr>
-</tbody></table>
-<ul>
-<li><strong>微循环定义</strong>：订单/库存/在途任一变化 → 自动重算齐套 → 求解可行性 → 冲突归因 → 生成动作包（工单+请购+交期草案），全程自主。</li>
-<li><strong>宏门禁点</strong>：①计划采纳（计划员）②交期承诺（销售确认）③替代料启用（工程确认）。</li>
-</ul></div><div class="footer"><span>对应 PRD §4 Agent 编排</span><span class="mono" id="pg0"></span></div></section>
-<section class="slide " id="s6"><h2>05 任务闭环 7 步映射</h2><div class="pipeline"><div class="step"><b>1. 任务输入</b></div><div class="step"><b>2. 意图理解</b></div><div class="step"><b>3. 任务规划</b></div><div class="step"><b>4. 能力调用</b></div><div class="step"><b>5. 结果交付</b></div><div class="step"><b>6. 验证反馈</b></div><div class="step"><b>7. 安全边界</b></div></div><div class="md" style="margin-top:18px"><p>任务闭环 7 步映射（手册 8.2）</p>
-<p>输入=订单/插单/库存变化 → 意图理解=变更类型与影响范围 → 任务规划=重算与求解计划 → 能力调用=BOM/库存/在途/产能日历 API+求解器 → 结果交付=可行排产+冲突解释+动作包 → 验证反馈=硬约束零违反校验+延期单数对比基线 → 安全边界=纯建议域声明。</p></div><div class="footer"><span>对应 PRD §5 闭环 7 步（手册 8.2）</span><span class="mono" id="pg0"></span></div></section>
-<section class="slide " id="s7"><h2>06 数据策略 ＆ 评测指标</h2><div class="grid2"><div class="card md" style="overflow:auto"><p>数据策略</p>
-<p>自建模拟：BOM 三层（成品-组件-原料）×库存×在途×订单 30-50 单×产能日历×技能班次；OR-Tools flexible job-shop 官方示例映射（许可宽松，待核验）；字段与模拟逻辑写入合规文档（FAQ Q7）。</p></div><div class="card md" style="overflow:auto"><p>评测指标</p>
-<p>齐套核算准确率 100%（程序可校验）；排产硬约束违反 0；延期订单数较 FIFO 基线下降 ≥15%；插单全流程响应 ≤30 秒；冲突解释采纳率（人工评分）。</p></div></div><div class="footer"><span>对应 PRD §6 数据策略 ＋ §7 评测指标</span><span class="mono" id="pg0"></span></div></section>
-<section class="slide " id="s8"><h2>07 安全合规口径</h2><div class="md" style="overflow:auto"><p>安全合规口径</p>
-<p>纯计划建议系统，不写真实 ERP；计划采纳与承诺交期由人决定（手册 9.3：不替代专业人员判断）；LLM 与求解器契约公开（技术透明）。</p></div><div class="footer"><span>对应 PRD §8 安全合规</span><span class="mono" id="pg0"></span></div></section>
-<section class="slide " id="s9"><h2>08 三档赛事排期</h2><div class="md" style="overflow:auto"><p>三档赛事排期</p>
-<ul>
-<li>初赛（8.16 前）：架构图+LLM/求解器契约图（保底 PPT 第 6 页模板可复用）</li>
-<li>复赛（9.3 前）：齐套核算+插单冲突解释一条链可运行（含甘特与解释面板）</li>
-<li>决赛（9.22）：交互式插单演示+与 M3-C/M3-B 同厂联动（风险→缺口→请购）</li>
-</ul></div><div class="footer"><span>对应 PRD §9 三档排期</span><span class="mono" id="pg0"></span></div></section>
-<section class="slide " id="s10"><h2>09 开源复用物 ＆ 风险对策</h2><div class="grid2"><div class="card md" style="overflow:auto"><p>开源复用物</p>
-<p>制造模拟数据生成器、齐套核算引擎封装、冲突解释 Prompt 模板、依赖图可视化组件。</p></div><div class="card md" style="overflow:auto"><p>风险与对策</p>
-<p>"与 APS 比呢"质疑 → 定位中小厂用不起 APS 的轻量入口+自然语言交互；"LLM 排产不靠谱"质疑 → 契约显性：LLM 不算数；排产输出被误用 → 界面强制"采纳确认"门禁。</p></div></div><div class="footer"><span>对应 PRD §10 开源复用 ＋ §11 风险</span><span class="mono" id="pg0"></span></div></section>
-<section class="slide " id="s11"><h2>10 参赛简介（≤500 字 · 八要素）</h2><div class="brk" style="padding:26px 32px;overflow:auto;max-height:440px" class="md"><div class="md"><p>参赛简介（≤500 字，八要素）</p>
-<p><strong>项目名称</strong>：齐途 QiPlan——机加厂齐套核算与插单冲突解释智能体。</p>
-<p><strong>行业赛题</strong>：AI+工业制造。<strong>目标用户</strong>：中小机械/汽配厂计划员、物控与销售。</p>
-<p><strong>核心问题</strong>：插单靠电话与 Excel 评估，缺料发现晚，被延订单说不清原因。</p>
-<p><strong>解决方案</strong>：LLM×求解器分工的计划副驾——齐套核算 Agent 做三层 BOM 展开与缺口清单；排产求解 Agent 用约束求解生成可行排产；冲突解释 Agent 归因每张被延订单（缺哪个料、哪台机满载）并给出替代方案；采购联动 Agent 把缺口变成请购草案，最终交付"工单+请购+交期"动作包。</p>
-<p><strong>创新点</strong>：求解器管最优化、LLM 管交互与解释的清晰契约；主打传统 APS 最缺的插单冲突解释；微循环自主重算，计划采纳与交期承诺始终由人拍板。</p>
-<p><strong>开放/复用价值</strong>：开源制造模拟数据生成器、齐套引擎与解释模板，中小厂可直接复用。</p>
-<p><strong>当前进展</strong>：方案与数据模型设计完成，原型开发中，提交时附演示。</p></div></div><div class="footer"><span>对应 PRD §12 参赛简介</span><span class="mono" id="pg0"></span></div></section>
-<section class="slide " id="s12"><h2>审核记录（供你填写）</h2><div class="grid3"><div class="card"><h3>✓ 亮点</h3><p style="color:var(--muted)">叙事/设计上最打动你的点…</p></div><div class="card"><h3>△ 顾虑</h3><p style="color:var(--muted)">可信度/工作量/合规疑虑…</p></div><div class="card"><h3>? 疑问</h3><p style="color:var(--muted)">待我补充说明的问题…</p></div></div><div class="quote" style="margin-top:22px">审核结论：☐ 转正式 PPT　☐ 修改后再审　☐ 冻结为模块</div><div class="footer"><span>对应 PRD 审核页</span><span class="mono" id="pg0"></span></div></section><div class="pager"><button onclick="show(cur-1)">◀</button><button onclick="show(cur+1)">▶</button></div><div class="footer" style="z-index:4"><span>ENF-04 · M3A 审核稿</span><span class="mono" id="pg">01 / 12</span></div></div><script>
-const slides=[...document.querySelectorAll('.slide')];let cur=0;
-const show=i=>{cur=Math.max(0,Math.min(slides.length-1,i));
- slides.forEach((s,k)=>s.classList.toggle('active',k===cur));
- document.getElementById('pg').textContent=String(cur+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');};
-document.addEventListener('keydown',e=>{
- if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();show(cur+1)}
- if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(cur-1)}
- if(e.key==='Home')show(0); if(e.key==='End')show(slides.length-1);});
+:root{--ink:#16181D;--muted:#5B6472;--line:#C9CFD5;--paper:#EDEFF1;--white:#FAFBFC;
+ --amber:#E8630A;--steel:#3D5A6C;--sig:#B4540A;
+ --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+ --title-size:clamp(1.9rem,6.4vh,4.2rem);--h2-size:clamp(1.45rem,4.6vh,2.9rem);
+ --h3-size:clamp(.95rem,2.6vh,1.4rem);--body-size:clamp(.8rem,2.05vh,1.2rem);
+ --small-size:clamp(.66rem,1.6vh,.9rem);--pad-y:clamp(1rem,4.6vh,3.6rem);
+ --pad-x:clamp(1rem,5%,5.2rem);--gap:clamp(.7rem,2.8vh,2rem);
+ font-family:"Avenir Next","PingFang SC","Noto Sans CJK SC","Microsoft YaHei",sans-serif}
+*{box-sizing:border-box}html,body{height:100%;overflow-x:hidden}
+html{scroll-snap-type:y mandatory;scroll-behavior:smooth;background:var(--paper)}
+body{margin:0;color:var(--ink)}
+.slide{width:100vw;height:100vh;height:100dvh;overflow:hidden;scroll-snap-align:start;display:flex;
+ flex-direction:column;position:relative;isolation:isolate;border-bottom:1px solid var(--line);
+ background-color:var(--paper);background-image:linear-gradient(rgba(22,24,29,.03) 1px,transparent 1px),
+ linear-gradient(90deg,rgba(22,24,29,.03) 1px,transparent 1px);background-size:64px 64px}
+.slide--white{background-color:var(--white)}
+.slide--dark{color:#E8EBEE;background-color:#14171B;border-bottom:1px solid #2A2F36;
+ background-image:linear-gradient(rgba(232,235,238,.05) 1px,transparent 1px),
+ linear-gradient(90deg,rgba(232,235,238,.05) 1px,transparent 1px);background-size:64px 64px}
+.hazbar{position:absolute;left:0;right:0;top:0;height:8px;
+ background:repeating-linear-gradient(-45deg,var(--ink) 0 12px,var(--amber) 12px 24px)}
+.slide--dark .hazbar{background:repeating-linear-gradient(-45deg,#2A2F36 0 12px,var(--amber) 12px 24px)}
+.contour{position:absolute;inset:0;opacity:.5;pointer-events:none}
+.slide-content{flex:1;width:min(100%,1600px);max-height:100%;margin:0 auto;overflow:hidden;
+ padding:calc(var(--pad-y) + 14px) var(--pad-x) var(--pad-y);display:flex;flex-direction:column;
+ justify-content:center;gap:var(--gap)}
+.mono{font-family:var(--mono)}
+.eyebrow{margin:0 0 .4rem;font-family:var(--mono);color:var(--steel);font-size:var(--small-size);
+ font-weight:700;text-transform:uppercase;letter-spacing:.14em}
+.slide--dark .eyebrow{color:#8FA6B5}
+h1{max-width:17ch;margin:0;font-size:var(--title-size);line-height:1.06;font-weight:800}
+h2{max-width:22ch;margin:0;font-size:var(--h2-size);line-height:1.12;font-weight:800;
+ border-left:8px solid var(--sig);padding-left:14px}
+.slide--dark h2{border-left-color:var(--amber);color:#F2F4F6}
+h3{margin:0 0 .35rem;font-size:var(--h3-size);line-height:1.2}
+p{margin:0;font-size:var(--body-size);line-height:1.55}
+.lede{max-width:40ch;color:var(--muted);font-size:clamp(.95rem,2.4vh,1.4rem)}
+.slide--dark .lede{color:#A8B2BC}
+.accent{color:var(--sig)}
+.slide--dark .accent{color:var(--amber)}
+.brand{display:flex;align-items:center;gap:clamp(.65rem,1.5vh,1rem)}
+.brand .idplate{display:grid;place-items:center;width:clamp(44px,8vh,64px);height:clamp(44px,8vh,64px);
+ border:2px solid var(--ink);position:relative;font-family:var(--mono);font-weight:800;font-size:var(--small-size);
+ clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,0 100%);background:var(--white)}
+.brand .idplate::after{content:"";position:absolute;right:3px;top:3px;width:8px;height:8px;background:var(--amber)}
+.slide--dark .idplate{background:#1B2026;border-color:#E8EBEE}
+.brand strong{display:block;font-size:var(--body-size);font-family:var(--mono);letter-spacing:.06em}
+.brand span{display:block;color:var(--muted);font-size:var(--small-size)}
+.slide--dark .brand span{color:#8FA6B5}
+.reticle{position:absolute;right:var(--pad-x);bottom:var(--pad-y);width:clamp(120px,24vh,220px);aspect-ratio:1;
+ z-index:-1;opacity:.9}
+.reticle::before,.reticle::after{content:"";position:absolute;inset:0;border:2px solid var(--sig)}
+.reticle::before{clip-path:polygon(0 0,30% 0,30% 6%,6% 6%,6% 30%,0 30%,0 70%,6% 70%,6% 94%,30% 94%,30% 100%,0 100%,70% 100%,70% 94%,94% 94%,94% 70%,100% 70%,100% 30%,94% 30%,94% 6%,70% 6%,70% 0)}
+.reticle::after{inset:22%;border:1px solid var(--amber);transform:rotate(45deg)}
+.tag{display:inline-flex;align-items:center;min-height:1.7rem;padding:.2rem .6rem;border:1.5px solid var(--ink);
+ border-radius:2px;font-size:var(--small-size);font-weight:800;margin-right:.5rem;background:var(--white)}
+.slide--dark .tag{border-color:#E8EBEE;background:#1B2026}
+.big-number{font-family:var(--mono);font-size:clamp(3.2rem,15vh,9.5rem);font-weight:800;line-height:.88;
+ color:var(--amber);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.two-col{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);align-items:center;gap:clamp(1rem,5%,4.5rem)}
+.three-col{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(.55rem,2%,1.2rem)}
+.panel{min-width:0;padding:clamp(.8rem,2.2vh,1.35rem);border:1.5px solid var(--line);background:var(--white);
+ border-top:3px solid var(--sig);clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,0 100%);position:relative}
+.panel .uid{position:absolute;top:6px;right:18px;font-family:var(--mono);font-size:.6rem;color:var(--muted);letter-spacing:.1em}
+.panel:nth-child(2){border-top-color:var(--steel)}
+.panel:nth-child(3){border-top-color:var(--amber)}
+.panel p{color:var(--muted);font-size:var(--small-size)}
+.panel .score{font-family:var(--mono);font-size:clamp(1.5rem,4.8vh,2.6rem);font-weight:800;color:var(--sig)}
+.ops{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:clamp(.4rem,1.8vh,1rem);margin:clamp(.6rem,3vh,1.5rem) 0}
+.ops .op{min-width:clamp(5rem,15vh,8.5rem);padding:clamp(.5rem,1.6vh,.9rem);border:1.5px solid var(--ink);
+ background:var(--white);text-align:center;font-weight:800;font-size:var(--body-size);
+ clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%)}
+.slide--dark .ops .op{border-color:#E8EBEE;background:#1B2026;color:#E8EBEE}
+.ops em{font-style:normal;font-family:var(--mono);color:var(--amber);font-weight:800;font-size:1.3em}
+.chain{display:grid;grid-template-columns:repeat(7,1fr);gap:clamp(.3rem,1vw,.8rem)}
+.node{min-height:clamp(4.4rem,13vh,8rem);padding:clamp(.55rem,1.8vh,1rem);border:1px solid #3D5A6C;background:#1B2026;
+ clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%)}
+.node b{display:block;font-family:var(--mono);color:var(--amber);font-size:var(--small-size)}
+.node span{display:block;margin-top:.35rem;color:#A8B2BC;font-size:var(--small-size);line-height:1.4}
+.flow{display:grid;gap:clamp(.5rem,1.4vh,.9rem);counter-reset:fl}
+.flow div{counter-increment:fl;display:grid;grid-template-columns:3.2rem 1fr;align-items:center;
+ min-height:clamp(3rem,8.5vh,5rem);border-bottom:1px solid var(--line)}
+.flow div::before{content:counter(fl,decimal-leading-zero);font-family:var(--mono);color:var(--amber);
+ font-size:var(--small-size);font-weight:800}
+.flow strong{font-size:clamp(.95rem,2.8vh,1.5rem)}
+.gauge{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(.55rem,2%,1.2rem)}
+.gauge .g{padding:clamp(.8rem,2.2vh,1.35rem);border:1.5px solid var(--line);background:var(--white);
+ border-top:3px solid var(--sig);clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,0 100%)}
+.gauge .g b{display:block;font-family:var(--mono);font-size:clamp(1.7rem,5.6vh,3.4rem);line-height:1;color:var(--sig)}
+.gauge .g:nth-child(2) b{color:var(--steel)}
+.gauge .g:nth-child(3) b{color:#2F7D4F}
+.gauge .g p{margin:.5rem 0 0;color:var(--muted);font-size:var(--small-size)}
+.boundary{display:grid;grid-template-columns:auto 1fr;gap:.8rem;align-items:center;padding:clamp(.7rem,1.9vh,1.1rem);
+ border-left:6px solid var(--amber);background:#FDF3EC;margin-top:var(--gap)}
+.boundary strong{font-size:var(--body-size)}
+.boundary strong::before{content:"⚠ ";color:var(--amber)}
+.boundary span{color:var(--muted);font-size:var(--small-size)}
+.milestones{position:relative;display:grid;grid-template-columns:repeat(6,1fr);gap:.3rem;padding-top:2.2rem}
+.milestones::before{content:"";position:absolute;left:1%;right:1%;top:1rem;height:3px;background:var(--ink)}
+.ms{position:relative;padding-top:.4rem}
+.ms::before{content:"";position:absolute;top:-1.4rem;left:0;width:.85rem;height:.85rem;background:var(--sig);
+ border:3px solid var(--paper);border-radius:2px}
+.ms:nth-child(4)::before,.ms:nth-child(5)::before{background:var(--amber)}
+.ms:nth-child(6)::before{background:var(--steel)}
+.ms strong{display:block;font-size:var(--small-size)}
+.ms span{display:block;margin-top:.2rem;color:var(--muted);font-size:var(--small-size)}
+.doc{padding:clamp(1rem,3vh,1.7rem);border:2px solid var(--ink);background:var(--white);
+ max-height:clamp(300px,56vh,450px);overflow:auto;position:relative;
+ clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,0 100%)}
+.doc::before{content:"BLUEPRINT · PRD §12";position:absolute;top:8px;right:22px;font-family:var(--mono);
+ font-size:.6rem;color:var(--muted);letter-spacing:.12em}
+.doc h3{color:var(--sig)}
+.doc p{font-size:var(--small-size);line-height:1.7;margin:.35rem 0}
+.doc b{color:var(--sig)}
+.checklist{display:grid;gap:clamp(.5rem,1.6vh,.9rem)}
+.chk{display:grid;grid-template-columns:clamp(2.2rem,5.5vh,3.6rem) 1fr;align-items:center;
+ min-height:clamp(3rem,9vh,5.2rem);border-bottom:1px solid #2A2F36}
+.chk b{font-family:var(--mono);color:var(--amber);font-size:var(--h3-size)}
+.chk strong{font-size:clamp(.95rem,2.8vh,1.5rem)}
+.footer-mark{position:absolute;left:var(--pad-x);bottom:clamp(.45rem,1.7vh,1rem);font-family:var(--mono);
+ color:var(--muted);font-size:clamp(.58rem,1.3vh,.76rem);font-weight:700;letter-spacing:.06em}
+.slide--dark .footer-mark{color:#77828D}
+.present-nav{position:fixed;right:clamp(.6rem,2%,1.4rem);bottom:clamp(.6rem,2vh,1.2rem);z-index:50;display:flex;
+ align-items:center;gap:.45rem;padding:.35rem;border:1.5px solid var(--ink);border-radius:3px;background:rgba(250,251,252,.94)}
+.present-nav button{width:2rem;height:2rem;padding:0;border:0;background:transparent;color:var(--ink);cursor:pointer;font-size:1.05rem}
+.slide-count{min-width:3.8rem;text-align:center;font-size:.72rem;font-weight:800;font-family:var(--mono)}
+.progress{position:fixed;inset:0 0 auto;z-index:60;height:4px;background:rgba(22,24,29,.12)}
+.progress span{display:block;width:10%;height:100%;background:var(--amber);transition:width 220ms ease}
+.speaker-notes{display:none;position:absolute;left:var(--pad-x);right:var(--pad-x);bottom:clamp(1.6rem,4vh,2.8rem);
+ z-index:30;max-height:30vh;overflow:auto;padding:.8rem 1rem;border:1.5px solid var(--ink);background:rgba(250,251,252,.97);
+ color:var(--ink);font-size:clamp(.66rem,1.55vh,.9rem);line-height:1.55}
+body.show-notes .slide.is-active .speaker-notes{display:block}
+[data-reveal]{opacity:0;transform:translateY(16px);transition:opacity .4s ease,transform .4s ease}
+.is-active [data-reveal]{opacity:1;transform:translateY(0)}
+.is-active [data-reveal]:nth-child(2){transition-delay:80ms}
+.is-active [data-reveal]:nth-child(3){transition-delay:150ms}
+.is-active [data-reveal]:nth-child(4){transition-delay:220ms}
+@media (max-width:760px){.two-col,.three-col,.gauge{grid-template-columns:1fr}
+ .milestones{grid-template-columns:1fr;padding-top:0}.milestones::before,.ms::before{display:none}
+ .chain{grid-template-columns:1fr}.reticle{opacity:.4}}
+@media (prefers-reduced-motion:reduce){*[data-reveal]{opacity:1;transform:none;transition:none}}
+@media print{html,body{overflow:visible;height:auto}
+ .slide{page-break-after:always;height:100vh}.present-nav,.progress{display:none}
+ [data-reveal]{opacity:1;transform:none}}
+</style></head><body style="--sig:#2B5C8A"><div class="progress" aria-hidden="true"><span id="pf"></span></div><main id="deck"><section class="slide slide--paper" id="s1" aria-label="第1屏"><div class="hazbar"></div><svg class="contour" viewBox="0 0 1280 720" preserveAspectRatio="none"><g fill="none" stroke="#3D5A6C" stroke-opacity=".12"><path d="M-40 620 Q 300 480 640 560 T 1340 520"/><path d="M-40 660 Q 320 530 660 600 T 1340 570"/><path d="M-40 700 Q 340 580 700 640 T 1340 620"/><path d="M900 -40 Q 1050 200 980 420 T 1120 760"/><path d="M960 -40 Q 1120 210 1040 430 T 1180 760"/></g></svg><div class="slide-content"><div class="brand" data-reveal><div class="idplate">E04</div><div><strong>PLANNING OPS CONSOLE</strong><span>齐套核算+插单冲突解释 · 计划控制台 ★主推 · 非官方审核稿</span></div></div><div data-reveal><p class="eyebrow">GOAI 无界应用 · AI+工业制造 // ENF-04 · UNIT FILE</p><h1>插单的答案，<span class="accent">不该靠电话和 Excel</span></h1></div><p class="lede" data-reveal>求解器管最优化，LLM 管交互与解释：齐套核算、可行排产、冲突归因、动作包——计划采纳与交期承诺，由计划员拍板。</p><div data-reveal style="display:flex;flex-wrap:wrap;align-items:center"><span class="tag">冲突解释</span><span class="tag">LLM×求解器契约</span><span class="tag">计划人拍板</span><span class="tag">作品层 89.7 分 · 第一梯队 · 主推</span><span class="tag">S10 机械/汽配二级供应商</span></div><div class="reticle"></div></div><aside class="speaker-notes">这是齐途 QiPlan的审核稿。按 N 可看演讲备注。</aside><span class="footer-mark">ENF-04 · 01/12 · 微循环自主 · 宏流程门禁</span></section>
+<section class="slide slide--white" id="s2" aria-label="第2屏"><div class="hazbar"></div><svg class="contour" viewBox="0 0 1280 720" preserveAspectRatio="none"><g fill="none" stroke="#3D5A6C" stroke-opacity=".12"><path d="M-40 620 Q 300 480 640 560 T 1340 520"/><path d="M-40 660 Q 320 530 660 600 T 1340 570"/><path d="M-40 700 Q 340 580 700 640 T 1340 620"/><path d="M900 -40 Q 1050 200 980 420 T 1120 760"/><path d="M960 -40 Q 1120 210 1040 430 T 1180 760"/></g></svg><div class="slide-content"><div data-reveal><p class="eyebrow">SCENE ANCHOR // PRD §1</p><h2>三个候选场景，选最贴六要素的一个</h2></div><div class="three-col" data-reveal><section class="panel"><span class="uid">ALT-1</span><h3>S10 机械/汽配二级供应商</h3><div class="score">90.5 ✓</div><p>最贴六要素叙事；BOM 三层适中，依赖图解释最顺</p></section><section class="panel"><span class="uid">ALT-2</span><h3>S11 PCB/SMT 电子</h3><div class="score">87.3</div><p>长单层 BOM、替代料规则复杂，参赛密度高</p></section><section class="panel"><span class="uid">ALT-3</span><h3>S12 包装/印刷短单</h3><div class="score">86.1</div><p>物料域过简单，痛点偏轻</p></section></div><p class="lede" data-reveal style="margin-top:.4rem">分差 3.2>3 直接取最高；与供应商哨兵（S13）、周度请购（S16）同厂闭环——计划域一条数据主线。</p></div><aside class="speaker-notes"></aside><span class="footer-mark">ENF-04 · 02/12 · 场景为什么这么选</span></section>
+<section class="slide slide--paper" id="s3" aria-label="第3屏"><div class="hazbar"></div><svg class="contour" viewBox="0 0 1280 720" preserveAspectRatio="none"><g fill="none" stroke="#3D5A6C" stroke-opacity=".12"><path d="M-40 620 Q 300 480 640 560 T 1340 520"/><path d="M-40 660 Q 320 530 660 600 T 1340 570"/><path d="M-40 700 Q 340 580 700 640 T 1340 620"/><path d="M900 -40 Q 1050 200 980 420 T 1120 760"/><path d="M960 -40 Q 1120 210 1040 430 T 1180 760"/></g></svg><div class="slide-content"><div class="two-col"><div data-reveal><p class="eyebrow">THE PAIN // PRD §3</p><div class="big-number">2h+<span style="font-size:.32em"> 每次插单</span></div><h2>一次插单评估的成本</h2><p class="lede">量化假设：插单评估 ≥2 小时；延期无解释，是计划员最消耗信任的日常。</p></div><div class="flow" data-reveal><div><strong>Excel + 电话逐格核对齐套</strong></div><div><strong>缺料投产前 1-2 天才暴露</strong></div><div><strong>被延订单说不清原因，销售与产线互斥</strong></div></div></div></div><aside class="speaker-notes"></aside><span class="footer-mark">ENF-04 · 03/12 · 痛点的量化假设</span></section>
+<section class="slide slide--white" id="s4" aria-label="第4屏"><div class="hazbar"></div><svg class="contour" viewBox="0 0 1280 720" preserveAspectRatio="none"><g fill="none" stroke="#3D5A6C" stroke-opacity=".12"><path d="M-40 620 Q 300 480 640 560 T 1340 520"/><path d="M-40 660 Q 320 530 660 600 T 1340 570"/><path d="M-40 700 Q 340 580 700 640 T 1340 620"/><path d="M900 -40 Q 1050 200 980 420 T 1120 760"/><path d="M960 -40 Q 1120 210 1040 430 T 1180 760"/></g></svg><div class="slide-content"><div data-reveal><p class="eyebrow">THE OFFER // PRD §2</p><h2>流程交给系统，决定留给人</h2></div><div class="ops" data-reveal><span class="op">订单变化</span><span class="op">+</span><span class="op">约束求解</span><em> → </em><span class="op">排产 + 冲突解释 + 动作包</span></div><p class="lede" data-reveal>求解器管最优化，LLM 管交互与解释——LLM 不算数，这是写进契约的。交付物是动作包（工单+请购+交期草案），不是一张表。</p></div><aside class="speaker-notes"></aside><span class="footer-mark">ENF-04 · 04/12 · 定位一句话</span></section>
+<section class="slide slide--dark" id="s5" aria-label="第5屏"><div class="hazbar"></div><div class="slide-content"><div data-reveal><p class="eyebrow">AGENT CREW // PRD §4</p><h2>微循环自主，宏流程门禁</h2></div><div class="three-col" data-reveal><section class="panel"><span class="uid">AGT-01</span><h3>齐套核算 Agent</h3><p>订单 → 三层 BOM 展开 → 毛/净需求 → 缺口清单（程序化可校验）</p></section><section class="panel"><span class="uid">AGT-02</span><h3>排产求解 Agent</h3><p>OR-Tools 约束求解，输出可行排产与被延订单（LLM 不做数值计算）</p></section><section class="panel"><span class="uid">AGT-03</span><h3>冲突解释 Agent</h3><p>延期归因（缺哪个料/哪台机满载/哪班人不够）+ 替代方案对比</p></section><section class="panel"><span class="uid">AGT-04</span><h3>采购联动 Agent</h3><p>接 M3-B：缺口 → 请购草案，并入动作包</p></section></div><div class="boundary" data-reveal><strong>微循环：需求/库存/在途变化 → 重算 → 求解 → 归因 → 动作包，全程自主</strong><span>宏门禁：计划采纳 = 计划员；交期承诺 = 销售；替代料启用 = 工程确认</span></div></div><aside class="speaker-notes"></aside><span class="footer-mark">ENF-04 · 05/12 · Agent 分工与门禁</span></section>
+<section class="slide slide--white" id="s6" aria-label="第6屏"><div class="hazbar"></div><svg class="contour" viewBox="0 0 1280 720" preserveAspectRatio="none"><g fill="none" stroke="#3D5A6C" stroke-opacity=".12"><path d="M-40 620 Q 300 480 640 560 T 1340 520"/><path d="M-40 660 Q 320 530 660 600 T 1340 570"/><path d="M-40 700 Q 340 580 700 640 T 1340 620"/><path d="M900 -40 Q 1050 200 980 420 T 1120 760"/><path d="M960 -40 Q 1120 210 1040 430 T 1180 760"/></g></svg><div class="slide-content"><div data-reveal><p class="eyebrow">CLOSED LOOP // PRD §5 · 手册 8.2</p><h2 style="color:#F2F4F6">一条链走完，七步都有落点</h2></div><div class="chain" data-reveal><div class="node"><b>01 任务输入</b><span>告警/工单/缺口流入</span></div><div class="node"><b>02 意图理解</b><span>分类·定级·影响面</span></div><div class="node"><b>03 任务规划</b><span>追溯/求解/起草计划</span></div><div class="node"><b>04 能力调用</b><span>库·API·求解器</span></div><div class="node"><b>05 结果交付</b><span>证据链/动作包</span></div><div class="node"><b>06 验证反馈</b><span>命中率·回放·人确认</span></div><div class="node"><b>07 安全边界</b><span>终点决策留给人</span></div></div><p class="lede" data-reveal>七步落点：订单/插单/库存变化输入、变更类型与影响面、重算求解计划、BOM/库存/在途/产能日历+求解器调用、排产+解释+动作包、硬约束零违反校验与基线对比、纯建议域声明。</p></div><aside class="speaker-notes"></aside><span class="footer-mark">ENF-04 · 06/12 · 闭环七步（手册 8.2）</span></section>
+<section class="slide slide--paper" id="s7" aria-label="第7屏"><div class="hazbar"></div><svg class="contour" viewBox="0 0 1280 720" preserveAspectRatio="none"><g fill="none" stroke="#3D5A6C" stroke-opacity=".12"><path d="M-40 620 Q 300 480 640 560 T 1340 520"/><path d="M-40 660 Q 320 530 660 600 T 1340 570"/><path d="M-40 700 Q 340 580 700 640 T 1340 620"/><path d="M900 -40 Q 1050 200 980 420 T 1120 760"/><path d="M960 -40 Q 1120 210 1040 430 T 1180 760"/></g></svg><div class="slide-content"><div data-reveal><p class="eyebrow">EVIDENCE & METRICS // PRD §6/§7</p><h2>已知与模拟，分开建档</h2></div><div class="gauge" data-reveal><section class="g"><b>100%</b><p>齐套核算准确率（程序可校验）；排产硬约束零违反</p></section><section class="g"><b>≥15%</b><p>延期订单数较 FIFO 基线下降</p></section><section class="g"><b>≤30s</b><p>插单全流程响应（重算+求解+解释）</p></section></div><p class="lede" data-reveal style="margin-top:.4rem">证据硬度全场最高的一档：每个数字都能被复算——这是 D 维 5.0 的由来。</p></div><aside class="speaker-notes"></aside><span class="footer-mark">ENF-04 · 07/12 · 证据与指标</span></section>
+<section class="slide slide--white" id="s8" aria-label="第8屏"><div class="hazbar"></div><svg class="contour" viewBox="0 0 1280 720" preserveAspectRatio="none"><g fill="none" stroke="#3D5A6C" stroke-opacity=".12"><path d="M-40 620 Q 300 480 640 560 T 1340 520"/><path d="M-40 660 Q 320 530 660 600 T 1340 570"/><path d="M-40 700 Q 340 580 700 640 T 1340 620"/><path d="M900 -40 Q 1050 200 980 420 T 1120 760"/><path d="M960 -40 Q 1120 210 1040 430 T 1180 760"/></g></svg><div class="slide-content"><div data-reveal><p class="eyebrow">SAFETY BOUNDARY // PRD §8</p><h2>计划权留在计划员手里</h2></div><div class="boundary" data-reveal><strong>纯计划建议系统</strong><span>不写真实 ERP；计划采纳与交期承诺由人决定（手册 9.3）</span></div><div class="boundary" data-reveal><strong>契约公开</strong><span>LLM 与求解器分工写进技术文档，评审可查</span></div><p class="lede" data-reveal>与 APS 的关系是答辩必考题：定位是中小厂用不起 APS 的轻量入口 + 自然语言交互 + 传统 APS 最缺的解释性。</p></div><aside class="speaker-notes"></aside><span class="footer-mark">ENF-04 · 08/12 · 安全合规口径</span></section>
+<section class="slide slide--paper" id="s9" aria-label="第9屏"><div class="hazbar"></div><svg class="contour" viewBox="0 0 1280 720" preserveAspectRatio="none"><g fill="none" stroke="#3D5A6C" stroke-opacity=".12"><path d="M-40 620 Q 300 480 640 560 T 1340 520"/><path d="M-40 660 Q 320 530 660 600 T 1340 570"/><path d="M-40 700 Q 340 580 700 640 T 1340 620"/><path d="M900 -40 Q 1050 200 980 420 T 1120 760"/><path d="M960 -40 Q 1120 210 1040 430 T 1180 760"/></g></svg><div class="slide-content"><div data-reveal><p class="eyebrow">ROADMAP // PRD §9</p><h2>三档排期：材料、可运行、现场</h2></div><div class="milestones" data-reveal><div class="ms"><strong>初赛 8.16</strong><span>架构 + 契约图</span></div><div class="ms"><strong>复赛 9.3</strong><span>齐套+插单解释链可运行</span></div><div class="ms"><strong>决赛 9.22</strong><span>交互式插单演示</span></div><div class="ms"><strong>联动</strong><span>风险→缺口→请购 全链</span></div></div></div><aside class="speaker-notes"></aside><span class="footer-mark">ENF-04 · 09/12 · 三档排期</span></section>
+<section class="slide slide--white" id="s10" aria-label="第10屏"><div class="hazbar"></div><svg class="contour" viewBox="0 0 1280 720" preserveAspectRatio="none"><g fill="none" stroke="#3D5A6C" stroke-opacity=".12"><path d="M-40 620 Q 300 480 640 560 T 1340 520"/><path d="M-40 660 Q 320 530 660 600 T 1340 570"/><path d="M-40 700 Q 340 580 700 640 T 1340 620"/><path d="M900 -40 Q 1050 200 980 420 T 1120 760"/><path d="M960 -40 Q 1120 210 1040 430 T 1180 760"/></g></svg><div class="slide-content"><div data-reveal><p class="eyebrow">OPEN SOURCE & RISKS // PRD §10/§11</p><h2>留下的不只是演示，是可复用的件</h2></div><div class="three-col" data-reveal><section class="panel"><span class="uid">OS-01</span><h3>模拟数据生成器</h3><p>BOM×库存×在途×订单×产能日历</p></section><section class="panel"><span class="uid">OS-02</span><h3>齐套引擎封装</h3><p>MRP 逻辑可程序校验</p></section><section class="panel"><span class="uid">OS-03</span><h3>冲突解释模板</h3><p>归因 Prompt + 依赖图组件</p></section></div><div class="boundary" data-reveal><strong>最大风险与对策</strong><span>排产红海 → 主打插单冲突解释错位；LLM 算数质疑 → 契约显性化 + 界面强制采纳确认门禁。</span></div></div><aside class="speaker-notes"></aside><span class="footer-mark">ENF-04 · 10/12 · 开源物与风险</span></section>
+<section class="slide slide--paper" id="s11" aria-label="第11屏"><div class="hazbar"></div><svg class="contour" viewBox="0 0 1280 720" preserveAspectRatio="none"><g fill="none" stroke="#3D5A6C" stroke-opacity=".12"><path d="M-40 620 Q 300 480 640 560 T 1340 520"/><path d="M-40 660 Q 320 530 660 600 T 1340 570"/><path d="M-40 700 Q 340 580 700 640 T 1340 620"/><path d="M900 -40 Q 1050 200 980 420 T 1120 760"/><path d="M960 -40 Q 1120 210 1040 430 T 1180 760"/></g></svg><div class="slide-content"><div data-reveal><p class="eyebrow">500-WORD BRIEF // PRD §12</p><h2>参赛简介 · 八要素（≤500 字）</h2></div><div class="doc" data-reveal><p><b>项目名称：</b>齐途 QiPlan——机加厂齐套核算与插单冲突解释智能体</p><p><b>行业赛题：</b>AI+工业制造</p><p><b>目标用户：</b>中小机械/汽配厂计划员、物控与销售</p><p><b>核心问题：</b>插单靠电话与 Excel 评估，缺料发现晚，被延订单说不清原因</p><p><b>解决方案：</b>LLM×求解器分工的计划副驾：齐套核算做三层 BOM 展开与缺口清单，排产求解用约束求解生成可行排产，冲突解释归因每张被延订单并给替代方案，采购联动把缺口变成请购草案</p><p><b>创新点：</b>求解器管最优化、LLM 管交互与解释的清晰契约；主打传统 APS 最缺的插单冲突解释；计划采纳与交期承诺由人拍板</p><p><b>开放/复用价值：</b>开源制造模拟数据生成器、齐套引擎与解释模板，中小厂可直接复用</p><p><b>当前进展：</b>方案与数据模型设计完成，原型开发中，提交时附演示</p></div></div><aside class="speaker-notes"></aside><span class="footer-mark">ENF-04 · 11/12 · 参赛简介</span></section>
+<section class="slide slide--dark" id="s12" aria-label="第12屏"><div class="hazbar"></div><div class="slide-content"><div class="two-col"><div data-reveal><p class="eyebrow">REVIEW // 你的审核位</p><p style="font-size:var(--h2-size);font-weight:800;line-height:1.12;max-width:14ch">看完这一份，<span class="accent">留下三句话</span></p></div><div class="checklist" data-reveal><div class="chk"><b>01</b><strong>计划控制台的钢蓝气质是否到位？</strong></div><div class="chk"><b>02</b><strong>求解器×LLM 契约一屏讲清了吗？</strong></div><div class="chk"><b>03</b><strong>主推作品的叙事顺序建议？</strong></div></div></div><p class="lede" data-reveal>审核结论：☐ 转正式 PPT　☐ 修改后再审　☐ 冻结为模块　（按 N 看演讲备注）</p></div><aside class="speaker-notes"></aside><span class="footer-mark">ENF-04 · 12/12 · 你的审核位</span></section></main><nav class="present-nav"><button id="pv" aria-label="上一页">←</button><span class="slide-count" id="sc">1 / 12</span><button id="nx" aria-label="下一页">→</button></nav><script>
+'use strict';
+class PC{constructor(){this.slides=[...document.querySelectorAll('.slide')];this.index=0;this.lock=false;
+ this.p=document.querySelector('#pf');this.c=document.querySelector('#sc');
+ this.ob=new IntersectionObserver(e=>this.on(e),{threshold:.62})}
+start(){this.slides.forEach(s=>this.ob.observe(s));
+ document.querySelector('#pv').addEventListener('click',()=>this.go(this.index-1));
+ document.querySelector('#nx').addEventListener('click',()=>this.go(this.index+1));
+ document.addEventListener('keydown',e=>this.k(e));
+ document.addEventListener('wheel',e=>this.w(e),{passive:true});
+ this.go(this.index,false)}
+on(es){const v=es.find(x=>x.isIntersecting);if(!v)return;this.index=this.slides.indexOf(v.target);
+ this.slides.forEach((s,i)=>s.classList.toggle('is-active',i===this.index));this.u()}
+k(e){const n=e.key.toLowerCase();
+ if(['arrowright','arrowdown','pagedown',' '].includes(n)){e.preventDefault();this.go(this.index+1)}
+ else if(['arrowleft','arrowup','pageup'].includes(n)){e.preventDefault();this.go(this.index-1)}
+ else if(e.key==='Home')this.go(0);else if(e.key==='End')this.go(this.slides.length-1);
+ else if(n==='n')document.body.classList.toggle('show-notes')}
+w(e){if(this.lock||Math.abs(e.deltaY)<18)return;this.lock=true;
+ this.go(this.index+(e.deltaY>0?1:-1));setTimeout(()=>this.lock=false,520)}
+go(i,s=true){this.index=Math.max(0,Math.min(this.slides.length-1,i));
+ this.slides[this.index].scrollIntoView({behavior:s?'smooth':'auto',block:'start'});this.u()}
+u(){this.c.textContent=`${this.index+1} / ${this.slides.length}`;
+ this.p.style.width=`${((this.index+1)/this.slides.length)*100}%`;
+ history.replaceState(null,'',`#s${this.index+1}`)}}
+const c=new PC(),h=Number(location.hash.replace('#s',''));
+if(Number.isInteger(h)&&h>=1)c.index=h-1;c.start();
 </script></body></html>

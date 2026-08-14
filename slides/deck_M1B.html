@@ -1,144 +1,184 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>安灯中枢 AndonCop · M1B 审核稿</title><style>
-:root{--w:1280px;--h:720px}
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%}
-body{font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;background:#08090c;overflow:hidden;
-     display:flex;align-items:center;justify-content:center}
-.mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
-.deck{width:var(--w);height:var(--h);position:relative;box-shadow:0 30px 90px rgba(0,0,0,.6)}
-.slide{position:absolute;inset:0;padding:56px 72px 64px;display:none;flex-direction:column;overflow:hidden}
-.slide.active{display:flex}
-/* ---------- 主题：终末地 工业HUD ---------- */
-body[data-theme=endfield]{--bg:#E9ECEE;--panel:#F8F9FA;--ink:#16181D;--muted:#5B6472;--line:#C6CCD2;
- --amber:#E8630A;--steel:#3D5A6C;--signal:var(--pc);--chip:#16181D;--chiptx:#F5F7F8}
-body[data-theme=endfield] .deck{background:
- radial-gradient(1100px 500px at 85% -10%,rgba(62,90,108,.10),transparent 60%),
- repeating-linear-gradient(0deg,transparent 0 47px,rgba(22,24,29,.045) 47px 48px),
- repeating-linear-gradient(90deg,transparent 0 47px,rgba(22,24,29,.045) 47px 48px),var(--bg);
- color:var(--ink)}
-body[data-theme=endfield] .contour{position:absolute;inset:0;opacity:.5;pointer-events:none}
-body[data-theme=endfield] .hazbar{position:absolute;left:0;right:0;top:0;height:8px;
- background:repeating-linear-gradient(-45deg,var(--ink) 0 14px,var(--amber) 14px 28px)}
-body[data-theme=endfield] .brk{border:2px solid var(--ink);position:relative;background:var(--panel)}
-body[data-theme=endfield] .brk::before,body[data-theme=endfield] .brk::after{content:"";position:absolute;width:14px;height:14px;border:3px solid var(--amber)}
-body[data-theme=endfield] .brk::before{left:-3px;top:-3px;border-right:none;border-bottom:none}
-body[data-theme=endfield] .brk::after{right:-3px;bottom:-3px;border-left:none;border-top:none}
-body[data-theme=endfield] .code{color:var(--amber);letter-spacing:.14em}
-body[data-theme=endfield] .chip{background:var(--chip);color:var(--chiptx)}
-body[data-theme=endfield] h1{font-size:56px;letter-spacing:.02em}
-body[data-theme=endfield] h2{font-size:34px;border-left:10px solid var(--signal);padding-left:16px;margin-bottom:22px}
-body[data-theme=endfield] .card{background:var(--panel);border:1.5px solid var(--line);border-top:4px solid var(--signal)}
-body[data-theme=endfield] .tag{border:1.5px solid var(--ink);color:var(--ink);background:transparent}
-/* ---------- 主题：绝区零 涩谷朋克 ---------- */
-body[data-theme=zzz]{--bg:#0F1014;--panel:#17181F;--ink:#F5F7FA;--muted:#9BA1AC;--line:#2A2C36;
- --amber:#FFB020;--signal:var(--neon)}
-body[data-theme=zzz] .deck{background:
- radial-gradient(900px 420px at 90% 0%,color-mix(in srgb,var(--neon) 12%,transparent),transparent 60%),
- repeating-linear-gradient(45deg,transparent 0 26px,rgba(245,247,250,.03) 26px 52px),var(--bg);color:var(--ink)}
-body[data-theme=zzz] .dots{position:absolute;inset:auto 0 0 0;height:200px;pointer-events:none;opacity:.5;
- background-image:radial-gradient(color-mix(in srgb,var(--neon) 55%,transparent) 1.6px,transparent 1.6px);background-size:18px 18px;
- -webkit-mask-image:linear-gradient(180deg,transparent,#000 70%)}
-body[data-theme=zzz] .hazbar{position:absolute;left:0;right:0;top:0;height:10px;background:repeating-linear-gradient(-45deg,var(--neon) 0 16px,#0F1014 16px 32px)}
-body[data-theme=zzz] .brk{border:3px solid var(--ink);background:var(--panel);box-shadow:8px 8px 0 color-mix(in srgb,var(--neon) 65%,#000)}
-body[data-theme=zzz] .code{color:var(--neon);letter-spacing:.22em;text-shadow:0 0 14px color-mix(in srgb,var(--neon) 55%,transparent)}
-body[data-theme=zzz] .chip{background:var(--neon);color:#0F1014;transform:rotate(-1.2deg);font-weight:700}
-body[data-theme=zzz] h1{font-size:58px;transform:rotate(-.6deg);text-shadow:4px 4px 0 color-mix(in srgb,var(--neon) 70%,#000)}
-body[data-theme=zzz] h2{font-size:36px;margin-bottom:22px;display:inline-block;background:var(--ink);color:#0F1014;padding:2px 18px;transform:rotate(-.5deg)}
-body[data-theme=zzz] .card{background:var(--panel);border:2px solid var(--line);border-left:6px solid var(--neon)}
-body[data-theme=zzz] .tag{border:2px solid var(--neon);color:var(--neon);background:rgba(0,0,0,.25)}
-/* ---------- 通用组件 ---------- */
-.footer{position:absolute;left:72px;right:72px;bottom:20px;display:flex;justify-content:space-between;
- font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:8px}
-.pager{position:absolute;right:24px;bottom:52px;display:flex;gap:8px;z-index:5}
-.pager button{width:44px;height:36px;font-size:18px;cursor:pointer;border:2px solid var(--muted);
- background:transparent;color:inherit;border-radius:4px}
-.pager button:hover{border-color:var(--signal);color:var(--signal)}
-h1{font-weight:800;line-height:1.15}h2{font-weight:800}
-.chip{display:inline-block;padding:4px 14px;font-size:14px;margin-right:10px;border-radius:3px}
-.tag{display:inline-block;padding:2px 10px;font-size:13px;margin:2px 6px 2px 0;border-radius:3px}
-.card{padding:18px 20px;border-radius:4px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.card h3{font-size:19px;margin-bottom:10px}
-.card li{margin:6px 0 6px 18px;font-size:15.5px;line-height:1.55}
-.md{font-size:16.5px;line-height:1.75}
-.md p{margin:8px 0}.md li{margin:6px 0 6px 20px}
-.md table{border-collapse:collapse;width:100%;margin:12px 0;font-size:15px}
-.md th,.md td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
-.md th{background:color-mix(in srgb,var(--signal) 16%,transparent);font-weight:700}
-.md strong{color:var(--signal)}
-.quote{border-left:5px solid var(--signal);background:color-mix(in srgb,var(--signal) 8%,transparent);
- padding:12px 16px;margin:10px 0;font-size:15.5px;border-radius:0 4px 4px 0}
-.kpi{font-size:15px}.kpi b{font-size:26px;color:var(--signal)}
-.cover{justify-content:center;gap:26px}
-.cover .sub{font-size:26px;color:var(--muted);font-weight:600}
-.cover .meta{display:flex;gap:0;flex-wrap:wrap;margin-top:8px}
-.pipeline{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;align-items:stretch}
-.step{border:1.5px solid var(--line);border-radius:4px;padding:10px 8px;font-size:13.5px;line-height:1.4;
- background:color-mix(in srgb,var(--signal) 6%,transparent);min-height:118px}
-.step b{display:block;color:var(--signal);margin-bottom:6px;font-size:14px}
-.gate{color:var(--amber);font-weight:700}
-.loop{color:var(--signal);font-weight:700}
-/* 打印导出 PDF */
-@media print{
- body{background:#fff;display:block;overflow:visible}
- .deck{width:1280px;height:auto;box-shadow:none}
- .slide{display:flex;position:relative;inset:auto;width:1280px;height:720px;page-break-after:always}
- .pager{display:none}
-}
-</style></head><body data-theme="endfield" style="--pc:#EA580C;--neon:#EA580C"><div class="deck"><div class="hazbar"></div><svg class="contour" viewBox="0 0 1280 720" preserveAspectRatio="none"><g fill="none" stroke="#3D5A6C" stroke-opacity=".13"><path d="M-40 620 Q 300 480 640 560 T 1340 520"/><path d="M-40 660 Q 320 530 660 600 T 1340 570"/><path d="M-40 700 Q 340 580 700 640 T 1340 620"/><path d="M900 -40 Q 1050 200 980 420 T 1120 760"/><path d="M960 -40 Q 1120 210 1040 430 T 1180 760"/></g></svg><section class="slide cover" id="s1"><div class="code mono">ENF-05 // GOAI · 无界应用 · AI+工业制造</div><h1>安灯中枢 AndonCop</h1><div class="sub">Andon 值守循环</div><div class="meta"><span class="chip">P1 · M1B</span><span class="chip">作品层 89.9 分</span><span class="chip">作品层 2/9 · 第一备选</span></div><div class="brk" style="padding:14px 20px;max-width:900px">锚定场景：S22 · 机加车间设备+质量混合</div><div style="margin-top:6px"><span class="tag">微循环自主</span><span class="tag">宏流程门禁</span><span class="tag">辅助建议系统 · 不替代专业决策</span></div><div class="footer"><span>对应 PRD 封面</span><span class="mono" id="pg0"></span></div></section>
-<section class="slide " id="s2"><h2>01 场景锚定</h2><div class="md" style="overflow:auto"><p>场景锚定</p>
-<p>S22 机加车间混合 Andon（89.3）vs S23 SMT（88.5，差 0.8&lt;3 → D2 均为 5 平 → 取总分）；S24 食品灌装（84.0）。</p>
-<p><strong>选 S22</strong>：UCI AI4I 2020 数据集支撑最硬；与 M1-E（S25）同车间同数据流。落选理由：S23 电子参赛密度高；S24 卫生合规面宽、叙事偏离装备制造。</p></div><div class="footer"><span>对应 PRD §1 场景锚定</span><span class="mono" id="pg0"></span></div></section>
-<section class="slide " id="s3"><h2>02 目标用户与痛点</h2><div class="md" style="overflow:auto"><p>目标用户与痛点</p>
-<ul>
-<li>用户：产线主管/班组长（响应决策）、维修工程师（工单接收）、车间主任（复盘消费方）。</li>
-<li>痛点（量化假设）：异常平均响应 ≥30 分钟；升级靠人盯，超时无兜底；处理记录散落微信群，事后无结构化数据。</li>
-</ul></div><div class="footer"><span>对应 PRD §3 用户与痛点</span><span class="mono" id="pg0"></span></div></section>
-<section class="slide " id="s4"><h2>03 产品定位</h2><div class="md" style="overflow:auto"><p>产品定位（一句话）</p>
-<p>机加车间的异常中枢：设备/质量/缺料事件流→自动分诊→派单→超时升级→关闭复盘，把"现场吼人+微信群"变成可解释、可配置的值守循环。</p></div><div class="footer"><span>对应 PRD §2 产品定位</span><span class="mono" id="pg0"></span></div></section>
-<section class="slide " id="s5"><h2>04 Agent 编排 · 微循环与宏门禁</h2><div class="md" style="overflow:auto"><p>Agent 编排（4 Agent）</p>
-<table><thead><tr><th>Agent</th><th>职责（微循环内自主）</th></tr></thead><tbody>
-<tr><td>分诊 Agent</td><td>事件流分类（设备/质量/缺料）+严重度分级，可融合现场照片辅助判断</td></tr>
-<tr><td>调度 Agent</td><td>技能矩阵×班次×当前负荷 → 通知对象与升级策略（含备件关联）</td></tr>
-<tr><td>工单跟踪 Agent</td><td>超时自动升级（ configurable SLA），处理记录结构化</td></tr>
-<tr><td>复盘 Agent</td><td>异常 Pareto、复发预警、SOP 修订建议（数据喂给 M1-E）</td></tr>
-</tbody></table>
-<ul>
-<li><strong>微循环定义</strong>：事件流入→分诊→派单→超时升级→关闭，值守循环全程自主。</li>
-<li><strong>宏门禁点</strong>：①停线决策（主管）②结案确认（发起人/主管）。</li>
-</ul></div><div class="footer"><span>对应 PRD §4 Agent 编排</span><span class="mono" id="pg0"></span></div></section>
-<section class="slide " id="s6"><h2>05 任务闭环 7 步映射</h2><div class="pipeline"><div class="step"><b>1. 任务输入</b></div><div class="step"><b>2. 意图理解</b></div><div class="step"><b>3. 任务规划</b></div><div class="step"><b>4. 能力调用</b></div><div class="step"><b>5. 结果交付</b></div><div class="step"><b>6. 验证反馈</b></div><div class="step"><b>7. 安全边界</b></div></div><div class="md" style="margin-top:18px"><p>任务闭环 7 步映射（手册 8.2）</p>
-<p>输入=设备告警/质量超标/缺料事件流 → 意图理解=分类与严重度 → 任务规划=响应与升级策略 → 能力调用=排班表/技能矩阵/备件库/SOP 库 → 结果交付=处理卡+工单+通知 → 验证反馈=关闭确认+响应时长统计 → 安全边界=停线与结案人工。</p></div><div class="footer"><span>对应 PRD §5 闭环 7 步（手册 8.2）</span><span class="mono" id="pg0"></span></div></section>
-<section class="slide " id="s7"><h2>06 数据策略 ＆ 评测指标</h2><div class="grid2"><div class="card md" style="overflow:auto"><p>数据策略</p>
-<p>UCI AI4I 2020（1 万条合成、5 类故障模式）驱动设备告警流；自建事件流/排班/技能矩阵/SLA 规则模拟；照片分诊用公开设备图。模拟逻辑写入合规文档（FAQ Q7）。</p></div><div class="card md" style="overflow:auto"><p>评测指标</p>
-<p>分诊准确率 ≥85%（ground truth 事件集）；模拟平均响应时长较"人工分诊"基线下降 ≥40%；升级策略执行率 100%（无超时遗漏）；复盘 Pareto 与人工统计一致。</p></div></div><div class="footer"><span>对应 PRD §6 数据策略 ＋ §7 评测指标</span><span class="mono" id="pg0"></span></div></section>
-<section class="slide " id="s8"><h2>07 安全合规口径</h2><div class="md" style="overflow:auto"><p>安全合规口径</p>
-<p>不控制任何真实设备；停线、重启等动作仅生成建议并要求人工确认（手册 9.3、FAQ Q13）；事件数据为公开+模拟。</p></div><div class="footer"><span>对应 PRD §8 安全合规</span><span class="mono" id="pg0"></span></div></section>
-<section class="slide " id="s9"><h2>08 三档赛事排期</h2><div class="md" style="overflow:auto"><p>三档赛事排期</p>
-<ul>
-<li>初赛（8.16 前）：P1 叙事页（值守循环骨架图）</li>
-<li>复赛（9.3 前）：事件面板可运行（回放模式：注入事件流看分诊-派单-升级全程）</li>
-<li>决赛（9.22）：实时事件注入+照片分诊多模态演示+与 M1-E 沉淀联动</li>
-</ul></div><div class="footer"><span>对应 PRD §9 三档排期</span><span class="mono" id="pg0"></span></div></section>
-<section class="slide " id="s10"><h2>09 开源复用物 ＆ 风险对策</h2><div class="grid2"><div class="card md" style="overflow:auto"><p>开源复用物</p>
-<p>Andon 事件 schema、分诊规则与升级策略 DSL、事件流模拟器。</p></div><div class="card md" style="overflow:auto"><p>风险与对策</p>
-<p>做成"通知机器人" → 分诊可解释面板+升级策略输出为产品核心；事件模拟工作量大 → 复用 AI4I 合成数据；照片分诊不稳 → 定位为"辅助信号"而非依赖项。</p></div></div><div class="footer"><span>对应 PRD §10 开源复用 ＋ §11 风险</span><span class="mono" id="pg0"></span></div></section>
-<section class="slide " id="s11"><h2>10 参赛简介（≤500 字 · 八要素）</h2><div class="brk" style="padding:26px 32px;overflow:auto;max-height:440px" class="md"><div class="md"><p>参赛简介（≤500 字，八要素）</p>
-<p><strong>项目名称</strong>：安灯中枢 AndonCop——车间异常响应值守智能体。</p>
-<p><strong>行业赛题</strong>：AI+工业制造。<strong>目标用户</strong>：机加车间产线主管、班组长与维修工程师。</p>
-<p><strong>核心问题</strong>：设备、质量、缺料异常响应靠现场吼人与微信群，责任漂移、超时无人升级、事后无结构化数据。</p>
-<p><strong>解决方案</strong>：四 Agent 值守系统——分诊 Agent 对事件流分类分级（可融合现场照片）；调度 Agent 按技能矩阵与负荷派单并生成升级策略；工单跟踪 Agent 超时自动升级并结构化处理记录；复盘 Agent 输出 Pareto 与复发预警。</p>
-<p><strong>创新点</strong>：事件驱动微循环全程自主，停线与结案由主管拍板；升级策略可解释、可配置，避免"通知机器人"化。</p>
-<p><strong>开放/复用价值</strong>：开源事件 schema、分诊与升级策略模板、事件流模拟器，可迁移至各类车间。</p>
-<p><strong>当前进展</strong>：方案设计完成，基于公开数据集的原型开发中，提交时附回放演示。</p></div></div><div class="footer"><span>对应 PRD §12 参赛简介</span><span class="mono" id="pg0"></span></div></section>
-<section class="slide " id="s12"><h2>审核记录（供你填写）</h2><div class="grid3"><div class="card"><h3>✓ 亮点</h3><p style="color:var(--muted)">叙事/设计上最打动你的点…</p></div><div class="card"><h3>△ 顾虑</h3><p style="color:var(--muted)">可信度/工作量/合规疑虑…</p></div><div class="card"><h3>? 疑问</h3><p style="color:var(--muted)">待我补充说明的问题…</p></div></div><div class="quote" style="margin-top:22px">审核结论：☐ 转正式 PPT　☐ 修改后再审　☐ 冻结为模块</div><div class="footer"><span>对应 PRD 审核页</span><span class="mono" id="pg0"></span></div></section><div class="pager"><button onclick="show(cur-1)">◀</button><button onclick="show(cur+1)">▶</button></div><div class="footer" style="z-index:4"><span>ENF-05 · M1B 审核稿</span><span class="mono" id="pg">01 / 12</span></div></div><script>
-const slides=[...document.querySelectorAll('.slide')];let cur=0;
-const show=i=>{cur=Math.max(0,Math.min(slides.length-1,i));
- slides.forEach((s,k)=>s.classList.toggle('active',k===cur));
- document.getElementById('pg').textContent=String(cur+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');};
-document.addEventListener('keydown',e=>{
- if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();show(cur+1)}
- if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(cur-1)}
- if(e.key==='Home')show(0); if(e.key==='End')show(slides.length-1);});
+:root{--ink:#16181D;--muted:#5B6472;--line:#C9CFD5;--paper:#EDEFF1;--white:#FAFBFC;
+ --amber:#E8630A;--steel:#3D5A6C;--sig:#B4540A;
+ --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+ --title-size:clamp(1.9rem,6.4vh,4.2rem);--h2-size:clamp(1.45rem,4.6vh,2.9rem);
+ --h3-size:clamp(.95rem,2.6vh,1.4rem);--body-size:clamp(.8rem,2.05vh,1.2rem);
+ --small-size:clamp(.66rem,1.6vh,.9rem);--pad-y:clamp(1rem,4.6vh,3.6rem);
+ --pad-x:clamp(1rem,5%,5.2rem);--gap:clamp(.7rem,2.8vh,2rem);
+ font-family:"Avenir Next","PingFang SC","Noto Sans CJK SC","Microsoft YaHei",sans-serif}
+*{box-sizing:border-box}html,body{height:100%;overflow-x:hidden}
+html{scroll-snap-type:y mandatory;scroll-behavior:smooth;background:var(--paper)}
+body{margin:0;color:var(--ink)}
+.slide{width:100vw;height:100vh;height:100dvh;overflow:hidden;scroll-snap-align:start;display:flex;
+ flex-direction:column;position:relative;isolation:isolate;border-bottom:1px solid var(--line);
+ background-color:var(--paper);background-image:linear-gradient(rgba(22,24,29,.03) 1px,transparent 1px),
+ linear-gradient(90deg,rgba(22,24,29,.03) 1px,transparent 1px);background-size:64px 64px}
+.slide--white{background-color:var(--white)}
+.slide--dark{color:#E8EBEE;background-color:#14171B;border-bottom:1px solid #2A2F36;
+ background-image:linear-gradient(rgba(232,235,238,.05) 1px,transparent 1px),
+ linear-gradient(90deg,rgba(232,235,238,.05) 1px,transparent 1px);background-size:64px 64px}
+.hazbar{position:absolute;left:0;right:0;top:0;height:8px;
+ background:repeating-linear-gradient(-45deg,var(--ink) 0 12px,var(--amber) 12px 24px)}
+.slide--dark .hazbar{background:repeating-linear-gradient(-45deg,#2A2F36 0 12px,var(--amber) 12px 24px)}
+.contour{position:absolute;inset:0;opacity:.5;pointer-events:none}
+.slide-content{flex:1;width:min(100%,1600px);max-height:100%;margin:0 auto;overflow:hidden;
+ padding:calc(var(--pad-y) + 14px) var(--pad-x) var(--pad-y);display:flex;flex-direction:column;
+ justify-content:center;gap:var(--gap)}
+.mono{font-family:var(--mono)}
+.eyebrow{margin:0 0 .4rem;font-family:var(--mono);color:var(--steel);font-size:var(--small-size);
+ font-weight:700;text-transform:uppercase;letter-spacing:.14em}
+.slide--dark .eyebrow{color:#8FA6B5}
+h1{max-width:17ch;margin:0;font-size:var(--title-size);line-height:1.06;font-weight:800}
+h2{max-width:22ch;margin:0;font-size:var(--h2-size);line-height:1.12;font-weight:800;
+ border-left:8px solid var(--sig);padding-left:14px}
+.slide--dark h2{border-left-color:var(--amber);color:#F2F4F6}
+h3{margin:0 0 .35rem;font-size:var(--h3-size);line-height:1.2}
+p{margin:0;font-size:var(--body-size);line-height:1.55}
+.lede{max-width:40ch;color:var(--muted);font-size:clamp(.95rem,2.4vh,1.4rem)}
+.slide--dark .lede{color:#A8B2BC}
+.accent{color:var(--sig)}
+.slide--dark .accent{color:var(--amber)}
+.brand{display:flex;align-items:center;gap:clamp(.65rem,1.5vh,1rem)}
+.brand .idplate{display:grid;place-items:center;width:clamp(44px,8vh,64px);height:clamp(44px,8vh,64px);
+ border:2px solid var(--ink);position:relative;font-family:var(--mono);font-weight:800;font-size:var(--small-size);
+ clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,0 100%);background:var(--white)}
+.brand .idplate::after{content:"";position:absolute;right:3px;top:3px;width:8px;height:8px;background:var(--amber)}
+.slide--dark .idplate{background:#1B2026;border-color:#E8EBEE}
+.brand strong{display:block;font-size:var(--body-size);font-family:var(--mono);letter-spacing:.06em}
+.brand span{display:block;color:var(--muted);font-size:var(--small-size)}
+.slide--dark .brand span{color:#8FA6B5}
+.reticle{position:absolute;right:var(--pad-x);bottom:var(--pad-y);width:clamp(120px,24vh,220px);aspect-ratio:1;
+ z-index:-1;opacity:.9}
+.reticle::before,.reticle::after{content:"";position:absolute;inset:0;border:2px solid var(--sig)}
+.reticle::before{clip-path:polygon(0 0,30% 0,30% 6%,6% 6%,6% 30%,0 30%,0 70%,6% 70%,6% 94%,30% 94%,30% 100%,0 100%,70% 100%,70% 94%,94% 94%,94% 70%,100% 70%,100% 30%,94% 30%,94% 6%,70% 6%,70% 0)}
+.reticle::after{inset:22%;border:1px solid var(--amber);transform:rotate(45deg)}
+.tag{display:inline-flex;align-items:center;min-height:1.7rem;padding:.2rem .6rem;border:1.5px solid var(--ink);
+ border-radius:2px;font-size:var(--small-size);font-weight:800;margin-right:.5rem;background:var(--white)}
+.slide--dark .tag{border-color:#E8EBEE;background:#1B2026}
+.big-number{font-family:var(--mono);font-size:clamp(3.2rem,15vh,9.5rem);font-weight:800;line-height:.88;
+ color:var(--amber);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.two-col{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);align-items:center;gap:clamp(1rem,5%,4.5rem)}
+.three-col{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(.55rem,2%,1.2rem)}
+.panel{min-width:0;padding:clamp(.8rem,2.2vh,1.35rem);border:1.5px solid var(--line);background:var(--white);
+ border-top:3px solid var(--sig);clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,0 100%);position:relative}
+.panel .uid{position:absolute;top:6px;right:18px;font-family:var(--mono);font-size:.6rem;color:var(--muted);letter-spacing:.1em}
+.panel:nth-child(2){border-top-color:var(--steel)}
+.panel:nth-child(3){border-top-color:var(--amber)}
+.panel p{color:var(--muted);font-size:var(--small-size)}
+.panel .score{font-family:var(--mono);font-size:clamp(1.5rem,4.8vh,2.6rem);font-weight:800;color:var(--sig)}
+.ops{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:clamp(.4rem,1.8vh,1rem);margin:clamp(.6rem,3vh,1.5rem) 0}
+.ops .op{min-width:clamp(5rem,15vh,8.5rem);padding:clamp(.5rem,1.6vh,.9rem);border:1.5px solid var(--ink);
+ background:var(--white);text-align:center;font-weight:800;font-size:var(--body-size);
+ clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%)}
+.slide--dark .ops .op{border-color:#E8EBEE;background:#1B2026;color:#E8EBEE}
+.ops em{font-style:normal;font-family:var(--mono);color:var(--amber);font-weight:800;font-size:1.3em}
+.chain{display:grid;grid-template-columns:repeat(7,1fr);gap:clamp(.3rem,1vw,.8rem)}
+.node{min-height:clamp(4.4rem,13vh,8rem);padding:clamp(.55rem,1.8vh,1rem);border:1px solid #3D5A6C;background:#1B2026;
+ clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%)}
+.node b{display:block;font-family:var(--mono);color:var(--amber);font-size:var(--small-size)}
+.node span{display:block;margin-top:.35rem;color:#A8B2BC;font-size:var(--small-size);line-height:1.4}
+.flow{display:grid;gap:clamp(.5rem,1.4vh,.9rem);counter-reset:fl}
+.flow div{counter-increment:fl;display:grid;grid-template-columns:3.2rem 1fr;align-items:center;
+ min-height:clamp(3rem,8.5vh,5rem);border-bottom:1px solid var(--line)}
+.flow div::before{content:counter(fl,decimal-leading-zero);font-family:var(--mono);color:var(--amber);
+ font-size:var(--small-size);font-weight:800}
+.flow strong{font-size:clamp(.95rem,2.8vh,1.5rem)}
+.gauge{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(.55rem,2%,1.2rem)}
+.gauge .g{padding:clamp(.8rem,2.2vh,1.35rem);border:1.5px solid var(--line);background:var(--white);
+ border-top:3px solid var(--sig);clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,0 100%)}
+.gauge .g b{display:block;font-family:var(--mono);font-size:clamp(1.7rem,5.6vh,3.4rem);line-height:1;color:var(--sig)}
+.gauge .g:nth-child(2) b{color:var(--steel)}
+.gauge .g:nth-child(3) b{color:#2F7D4F}
+.gauge .g p{margin:.5rem 0 0;color:var(--muted);font-size:var(--small-size)}
+.boundary{display:grid;grid-template-columns:auto 1fr;gap:.8rem;align-items:center;padding:clamp(.7rem,1.9vh,1.1rem);
+ border-left:6px solid var(--amber);background:#FDF3EC;margin-top:var(--gap)}
+.boundary strong{font-size:var(--body-size)}
+.boundary strong::before{content:"⚠ ";color:var(--amber)}
+.boundary span{color:var(--muted);font-size:var(--small-size)}
+.milestones{position:relative;display:grid;grid-template-columns:repeat(6,1fr);gap:.3rem;padding-top:2.2rem}
+.milestones::before{content:"";position:absolute;left:1%;right:1%;top:1rem;height:3px;background:var(--ink)}
+.ms{position:relative;padding-top:.4rem}
+.ms::before{content:"";position:absolute;top:-1.4rem;left:0;width:.85rem;height:.85rem;background:var(--sig);
+ border:3px solid var(--paper);border-radius:2px}
+.ms:nth-child(4)::before,.ms:nth-child(5)::before{background:var(--amber)}
+.ms:nth-child(6)::before{background:var(--steel)}
+.ms strong{display:block;font-size:var(--small-size)}
+.ms span{display:block;margin-top:.2rem;color:var(--muted);font-size:var(--small-size)}
+.doc{padding:clamp(1rem,3vh,1.7rem);border:2px solid var(--ink);background:var(--white);
+ max-height:clamp(300px,56vh,450px);overflow:auto;position:relative;
+ clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,0 100%)}
+.doc::before{content:"BLUEPRINT · PRD §12";position:absolute;top:8px;right:22px;font-family:var(--mono);
+ font-size:.6rem;color:var(--muted);letter-spacing:.12em}
+.doc h3{color:var(--sig)}
+.doc p{font-size:var(--small-size);line-height:1.7;margin:.35rem 0}
+.doc b{color:var(--sig)}
+.checklist{display:grid;gap:clamp(.5rem,1.6vh,.9rem)}
+.chk{display:grid;grid-template-columns:clamp(2.2rem,5.5vh,3.6rem) 1fr;align-items:center;
+ min-height:clamp(3rem,9vh,5.2rem);border-bottom:1px solid #2A2F36}
+.chk b{font-family:var(--mono);color:var(--amber);font-size:var(--h3-size)}
+.chk strong{font-size:clamp(.95rem,2.8vh,1.5rem)}
+.footer-mark{position:absolute;left:var(--pad-x);bottom:clamp(.45rem,1.7vh,1rem);font-family:var(--mono);
+ color:var(--muted);font-size:clamp(.58rem,1.3vh,.76rem);font-weight:700;letter-spacing:.06em}
+.slide--dark .footer-mark{color:#77828D}
+.present-nav{position:fixed;right:clamp(.6rem,2%,1.4rem);bottom:clamp(.6rem,2vh,1.2rem);z-index:50;display:flex;
+ align-items:center;gap:.45rem;padding:.35rem;border:1.5px solid var(--ink);border-radius:3px;background:rgba(250,251,252,.94)}
+.present-nav button{width:2rem;height:2rem;padding:0;border:0;background:transparent;color:var(--ink);cursor:pointer;font-size:1.05rem}
+.slide-count{min-width:3.8rem;text-align:center;font-size:.72rem;font-weight:800;font-family:var(--mono)}
+.progress{position:fixed;inset:0 0 auto;z-index:60;height:4px;background:rgba(22,24,29,.12)}
+.progress span{display:block;width:10%;height:100%;background:var(--amber);transition:width 220ms ease}
+.speaker-notes{display:none;position:absolute;left:var(--pad-x);right:var(--pad-x);bottom:clamp(1.6rem,4vh,2.8rem);
+ z-index:30;max-height:30vh;overflow:auto;padding:.8rem 1rem;border:1.5px solid var(--ink);background:rgba(250,251,252,.97);
+ color:var(--ink);font-size:clamp(.66rem,1.55vh,.9rem);line-height:1.55}
+body.show-notes .slide.is-active .speaker-notes{display:block}
+[data-reveal]{opacity:0;transform:translateY(16px);transition:opacity .4s ease,transform .4s ease}
+.is-active [data-reveal]{opacity:1;transform:translateY(0)}
+.is-active [data-reveal]:nth-child(2){transition-delay:80ms}
+.is-active [data-reveal]:nth-child(3){transition-delay:150ms}
+.is-active [data-reveal]:nth-child(4){transition-delay:220ms}
+@media (max-width:760px){.two-col,.three-col,.gauge{grid-template-columns:1fr}
+ .milestones{grid-template-columns:1fr;padding-top:0}.milestones::before,.ms::before{display:none}
+ .chain{grid-template-columns:1fr}.reticle{opacity:.4}}
+@media (prefers-reduced-motion:reduce){*[data-reveal]{opacity:1;transform:none;transition:none}}
+@media print{html,body{overflow:visible;height:auto}
+ .slide{page-break-after:always;height:100vh}.present-nav,.progress{display:none}
+ [data-reveal]{opacity:1;transform:none}}
+</style></head><body style="--sig:#8A5A0A"><div class="progress" aria-hidden="true"><span id="pf"></span></div><main id="deck"><section class="slide slide--paper" id="s1" aria-label="第1屏"><div class="hazbar"></div><svg class="contour" viewBox="0 0 1280 720" preserveAspectRatio="none"><g fill="none" stroke="#3D5A6C" stroke-opacity=".12"><path d="M-40 620 Q 300 480 640 560 T 1340 520"/><path d="M-40 660 Q 320 530 660 600 T 1340 570"/><path d="M-40 700 Q 340 580 700 640 T 1340 620"/><path d="M900 -40 Q 1050 200 980 420 T 1120 760"/><path d="M960 -40 Q 1120 210 1040 430 T 1180 760"/></g></svg><div class="slide-content"><div class="brand" data-reveal><div class="idplate">E05</div><div><strong>ANDON WATCHTOWER</strong><span>Andon 值守循环 · 值守塔（第一备选）· 非官方审核稿</span></div></div><div data-reveal><p class="eyebrow">GOAI 无界应用 · AI+工业制造 // ENF-05 · UNIT FILE</p><h1>车间的异常，<span class="accent">不该靠吼来传递</span></h1></div><p class="lede" data-reveal>事件值守塔：分诊、派单、超时升级、关闭复盘全程自主；停线与结案由主管拍板——升级策略可解释、可配置。</p><div data-reveal style="display:flex;flex-wrap:wrap;align-items:center"><span class="tag">事件值守</span><span class="tag">可解释升级</span><span class="tag">停线人拍板</span><span class="tag">作品层 89.9 分 · 第一备选</span><span class="tag">S22 机加车间混合 Andon</span></div><div class="reticle"></div></div><aside class="speaker-notes">这是安灯中枢 AndonCop的审核稿。按 N 可看演讲备注。</aside><span class="footer-mark">ENF-05 · 01/12 · 微循环自主 · 宏流程门禁</span></section>
+<section class="slide slide--white" id="s2" aria-label="第2屏"><div class="hazbar"></div><svg class="contour" viewBox="0 0 1280 720" preserveAspectRatio="none"><g fill="none" stroke="#3D5A6C" stroke-opacity=".12"><path d="M-40 620 Q 300 480 640 560 T 1340 520"/><path d="M-40 660 Q 320 530 660 600 T 1340 570"/><path d="M-40 700 Q 340 580 700 640 T 1340 620"/><path d="M900 -40 Q 1050 200 980 420 T 1120 760"/><path d="M960 -40 Q 1120 210 1040 430 T 1180 760"/></g></svg><div class="slide-content"><div data-reveal><p class="eyebrow">SCENE ANCHOR // PRD §1</p><h2>三个候选场景，选数据最硬的一个（0.8 分差按规则定夺）</h2></div><div class="three-col" data-reveal><section class="panel"><span class="uid">ALT-1</span><h3>S22 机加车间混合 Andon</h3><div class="score">89.3 ✓</div><p>AI4I 数据集支撑最硬；与车间记忆（S25）同数据流</p></section><section class="panel"><span class="uid">ALT-2</span><h3>S23 SMT 产线 Andon</h3><div class="score">88.5</div><p>分差 0.8<3，D2 平后回总分；电子参赛密度高</p></section><section class="panel"><span class="uid">ALT-3</span><h3>S24 食品/饮料灌装线</h3><div class="score">84.0</div><p>卫生合规面宽，叙事偏离装备制造</p></section></div><p class="lede" data-reveal style="margin-top:.4rem">分差 0.8<3 → 先比 D2（均 5 平）→ 回总分取 S22；AI4I 在手，事件模拟器与车间记忆共用一套数据流。</p></div><aside class="speaker-notes"></aside><span class="footer-mark">ENF-05 · 02/12 · 场景为什么这么选</span></section>
+<section class="slide slide--paper" id="s3" aria-label="第3屏"><div class="hazbar"></div><svg class="contour" viewBox="0 0 1280 720" preserveAspectRatio="none"><g fill="none" stroke="#3D5A6C" stroke-opacity=".12"><path d="M-40 620 Q 300 480 640 560 T 1340 520"/><path d="M-40 660 Q 320 530 660 600 T 1340 570"/><path d="M-40 700 Q 340 580 700 640 T 1340 620"/><path d="M900 -40 Q 1050 200 980 420 T 1120 760"/><path d="M960 -40 Q 1120 210 1040 430 T 1180 760"/></g></svg><div class="slide-content"><div class="two-col"><div data-reveal><p class="eyebrow">THE PAIN // PRD §3</p><div class="big-number">30min+<span style="font-size:.32em"> 响应</span></div><h2>车间异常的传递方式</h2><p class="lede">量化假设：平均响应 ≥30 分钟；值守塔的 SLA 与升级策略是可配置、可解释的——这是它不是"通知机器人"的原因。</p></div><div class="flow" data-reveal><div><strong>靠吼 + 微信群，责任漂移</strong></div><div><strong>超时无兜底升级，靠人盯</strong></div><div><strong>处理记录散落，事后无结构化数据</strong></div></div></div></div><aside class="speaker-notes"></aside><span class="footer-mark">ENF-05 · 03/12 · 痛点的量化假设</span></section>
+<section class="slide slide--white" id="s4" aria-label="第4屏"><div class="hazbar"></div><svg class="contour" viewBox="0 0 1280 720" preserveAspectRatio="none"><g fill="none" stroke="#3D5A6C" stroke-opacity=".12"><path d="M-40 620 Q 300 480 640 560 T 1340 520"/><path d="M-40 660 Q 320 530 660 600 T 1340 570"/><path d="M-40 700 Q 340 580 700 640 T 1340 620"/><path d="M900 -40 Q 1050 200 980 420 T 1120 760"/><path d="M960 -40 Q 1120 210 1040 430 T 1180 760"/></g></svg><div class="slide-content"><div data-reveal><p class="eyebrow">THE OFFER // PRD §2</p><h2>流程交给系统，决定留给人</h2></div><div class="ops" data-reveal><span class="op">事件流</span><span class="op">+</span><span class="op">技能矩阵</span><em> → </em><span class="op">分诊 + 派单 + 升级 + 复盘</span></div><p class="lede" data-reveal>值守归系统；停线与结案确认归主管。每一次关闭的记录，都会流进车间记忆（M1-E）的案例库。</p></div><aside class="speaker-notes"></aside><span class="footer-mark">ENF-05 · 04/12 · 定位一句话</span></section>
+<section class="slide slide--dark" id="s5" aria-label="第5屏"><div class="hazbar"></div><div class="slide-content"><div data-reveal><p class="eyebrow">AGENT CREW // PRD §4</p><h2>微循环自主，宏流程门禁</h2></div><div class="three-col" data-reveal><section class="panel"><span class="uid">AGT-01</span><h3>分诊 Agent</h3><p>设备/质量/缺料事件分类分级，可融合现场照片辅助判断</p></section><section class="panel"><span class="uid">AGT-02</span><h3>调度 Agent</h3><p>技能矩阵 × 班次 × 负荷 → 通知对象与升级策略（含备件关联）</p></section><section class="panel"><span class="uid">AGT-03</span><h3>工单跟踪 Agent</h3><p>SLA 超时自动升级，处理记录结构化</p></section><section class="panel"><span class="uid">AGT-04</span><h3>复盘 Agent</h3><p>异常 Pareto、复发预警、SOP 修订建议（数据喂给 M1-E）</p></section></div><div class="boundary" data-reveal><strong>微循环：事件流入 → 分诊 → 派单 → 超时升级 → 关闭，值守循环全程自主</strong><span>宏门禁：停线 = 主管；结案确认 = 发起人/主管</span></div></div><aside class="speaker-notes"></aside><span class="footer-mark">ENF-05 · 05/12 · Agent 分工与门禁</span></section>
+<section class="slide slide--white" id="s6" aria-label="第6屏"><div class="hazbar"></div><svg class="contour" viewBox="0 0 1280 720" preserveAspectRatio="none"><g fill="none" stroke="#3D5A6C" stroke-opacity=".12"><path d="M-40 620 Q 300 480 640 560 T 1340 520"/><path d="M-40 660 Q 320 530 660 600 T 1340 570"/><path d="M-40 700 Q 340 580 700 640 T 1340 620"/><path d="M900 -40 Q 1050 200 980 420 T 1120 760"/><path d="M960 -40 Q 1120 210 1040 430 T 1180 760"/></g></svg><div class="slide-content"><div data-reveal><p class="eyebrow">CLOSED LOOP // PRD §5 · 手册 8.2</p><h2 style="color:#F2F4F6">一条链走完，七步都有落点</h2></div><div class="chain" data-reveal><div class="node"><b>01 任务输入</b><span>告警/工单/缺口流入</span></div><div class="node"><b>02 意图理解</b><span>分类·定级·影响面</span></div><div class="node"><b>03 任务规划</b><span>追溯/求解/起草计划</span></div><div class="node"><b>04 能力调用</b><span>库·API·求解器</span></div><div class="node"><b>05 结果交付</b><span>证据链/动作包</span></div><div class="node"><b>06 验证反馈</b><span>命中率·回放·人确认</span></div><div class="node"><b>07 安全边界</b><span>终点决策留给人</span></div></div><p class="lede" data-reveal>七步落点：设备/质量/缺料事件流输入、分类与严重度、响应与升级策略、排班/技能/备件/SOP 调用、处理卡+工单+通知、关闭确认与时长统计、停线结案人工。</p></div><aside class="speaker-notes"></aside><span class="footer-mark">ENF-05 · 06/12 · 闭环七步（手册 8.2）</span></section>
+<section class="slide slide--paper" id="s7" aria-label="第7屏"><div class="hazbar"></div><svg class="contour" viewBox="0 0 1280 720" preserveAspectRatio="none"><g fill="none" stroke="#3D5A6C" stroke-opacity=".12"><path d="M-40 620 Q 300 480 640 560 T 1340 520"/><path d="M-40 660 Q 320 530 660 600 T 1340 570"/><path d="M-40 700 Q 340 580 700 640 T 1340 620"/><path d="M900 -40 Q 1050 200 980 420 T 1120 760"/><path d="M960 -40 Q 1120 210 1040 430 T 1180 760"/></g></svg><div class="slide-content"><div data-reveal><p class="eyebrow">EVIDENCE & METRICS // PRD §6/§7</p><h2>已知与模拟，分开建档</h2></div><div class="gauge" data-reveal><section class="g"><b>AI4I</b><p>UCI AI4I 2020（1 万条合成·5 类故障模式）驱动设备告警流</p></section><section class="g"><b>≥85%</b><p>分诊准确率（ground truth 事件集）</p></section><section class="g"><b>≥40%</b><p>模拟平均响应时长较人工分诊基线下降</p></section></div><p class="lede" data-reveal style="margin-top:.4rem">升级策略执行率 100%（无超时遗漏）——值守系统最怕的"漏"，被做成可验证指标。</p></div><aside class="speaker-notes"></aside><span class="footer-mark">ENF-05 · 07/12 · 证据与指标</span></section>
+<section class="slide slide--white" id="s8" aria-label="第8屏"><div class="hazbar"></div><svg class="contour" viewBox="0 0 1280 720" preserveAspectRatio="none"><g fill="none" stroke="#3D5A6C" stroke-opacity=".12"><path d="M-40 620 Q 300 480 640 560 T 1340 520"/><path d="M-40 660 Q 320 530 660 600 T 1340 570"/><path d="M-40 700 Q 340 580 700 640 T 1340 620"/><path d="M900 -40 Q 1050 200 980 420 T 1120 760"/><path d="M960 -40 Q 1120 210 1040 430 T 1180 760"/></g></svg><div class="slide-content"><div data-reveal><p class="eyebrow">SAFETY BOUNDARY // PRD §8</p><h2>值守塔不碰设备</h2></div><div class="boundary" data-reveal><strong>不控制任何设备</strong><span>停线、重启仅生成建议并要求人工确认（手册 9.3、FAQ Q13）</span></div><div class="boundary" data-reveal><strong>照片为辅助信号</strong><span>分诊不依赖单一模态，降级路径明确</span></div><p class="lede" data-reveal>第一备选定位：若 P2/P3 任一受阻即启用；关闭→案例→复发预警的收官模块吸收 M1-E。</p></div><aside class="speaker-notes"></aside><span class="footer-mark">ENF-05 · 08/12 · 安全合规口径</span></section>
+<section class="slide slide--paper" id="s9" aria-label="第9屏"><div class="hazbar"></div><svg class="contour" viewBox="0 0 1280 720" preserveAspectRatio="none"><g fill="none" stroke="#3D5A6C" stroke-opacity=".12"><path d="M-40 620 Q 300 480 640 560 T 1340 520"/><path d="M-40 660 Q 320 530 660 600 T 1340 570"/><path d="M-40 700 Q 340 580 700 640 T 1340 620"/><path d="M900 -40 Q 1050 200 980 420 T 1120 760"/><path d="M960 -40 Q 1120 210 1040 430 T 1180 760"/></g></svg><div class="slide-content"><div data-reveal><p class="eyebrow">ROADMAP // PRD §9</p><h2>三档排期：材料、可运行、现场</h2></div><div class="milestones" data-reveal><div class="ms"><strong>初赛 8.16</strong><span>值守循环骨架页</span></div><div class="ms"><strong>复赛 9.3</strong><span>事件面板可运行（回放）</span></div><div class="ms"><strong>决赛 9.22</strong><span>实时注入 + 照片分诊</span></div><div class="ms"><strong>联动</strong><span>与 M1-E 飞轮串联</span></div></div></div><aside class="speaker-notes"></aside><span class="footer-mark">ENF-05 · 09/12 · 三档排期</span></section>
+<section class="slide slide--white" id="s10" aria-label="第10屏"><div class="hazbar"></div><svg class="contour" viewBox="0 0 1280 720" preserveAspectRatio="none"><g fill="none" stroke="#3D5A6C" stroke-opacity=".12"><path d="M-40 620 Q 300 480 640 560 T 1340 520"/><path d="M-40 660 Q 320 530 660 600 T 1340 570"/><path d="M-40 700 Q 340 580 700 640 T 1340 620"/><path d="M900 -40 Q 1050 200 980 420 T 1120 760"/><path d="M960 -40 Q 1120 210 1040 430 T 1180 760"/></g></svg><div class="slide-content"><div data-reveal><p class="eyebrow">OPEN SOURCE & RISKS // PRD §10/§11</p><h2>留下的不只是演示，是可复用的件</h2></div><div class="three-col" data-reveal><section class="panel"><span class="uid">OS-01</span><h3>Andon 事件 schema</h3><p>设备/质量/缺料统一事件模型</p></section><section class="panel"><span class="uid">OS-02</span><h3>分诊与升级 DSL</h3><p>规则可解释、策略可配置</p></section><section class="panel"><span class="uid">OS-03</span><h3>事件流模拟器</h3><p>AI4I 映射 + 自建事件剧本</p></section></div><div class="boundary" data-reveal><strong>最大风险与对策</strong><span>通知机器人化 → 分诊可解释面板 + 升级策略输出为核心；照片分诊不稳 → 定位辅助信号。</span></div></div><aside class="speaker-notes"></aside><span class="footer-mark">ENF-05 · 10/12 · 开源物与风险</span></section>
+<section class="slide slide--paper" id="s11" aria-label="第11屏"><div class="hazbar"></div><svg class="contour" viewBox="0 0 1280 720" preserveAspectRatio="none"><g fill="none" stroke="#3D5A6C" stroke-opacity=".12"><path d="M-40 620 Q 300 480 640 560 T 1340 520"/><path d="M-40 660 Q 320 530 660 600 T 1340 570"/><path d="M-40 700 Q 340 580 700 640 T 1340 620"/><path d="M900 -40 Q 1050 200 980 420 T 1120 760"/><path d="M960 -40 Q 1120 210 1040 430 T 1180 760"/></g></svg><div class="slide-content"><div data-reveal><p class="eyebrow">500-WORD BRIEF // PRD §12</p><h2>参赛简介 · 八要素（≤500 字）</h2></div><div class="doc" data-reveal><p><b>项目名称：</b>安灯中枢 AndonCop——车间异常响应值守智能体</p><p><b>行业赛题：</b>AI+工业制造</p><p><b>目标用户：</b>机加车间产线主管、班组长与维修工程师</p><p><b>核心问题：</b>设备、质量、缺料异常响应靠现场吼人与微信群，责任漂移、超时无人升级、事后无结构化数据</p><p><b>解决方案：</b>四 Agent 值守：分诊对事件流分类分级（可融合现场照片），调度按技能矩阵与负荷派单并生成升级策略，工单跟踪超时自动升级，复盘输出 Pareto 与复发预警</p><p><b>创新点：</b>事件驱动微循环全程自主，停线与结案由主管拍板；升级策略可解释、可配置</p><p><b>开放/复用价值：</b>开源事件 schema、分诊与升级策略模板、事件流模拟器，可迁移至各类车间</p><p><b>当前进展：</b>方案设计完成，基于公开数据集的原型开发中，提交时附回放演示</p></div></div><aside class="speaker-notes"></aside><span class="footer-mark">ENF-05 · 11/12 · 参赛简介</span></section>
+<section class="slide slide--dark" id="s12" aria-label="第12屏"><div class="hazbar"></div><div class="slide-content"><div class="two-col"><div data-reveal><p class="eyebrow">REVIEW // 你的审核位</p><p style="font-size:var(--h2-size);font-weight:800;line-height:1.12;max-width:14ch">看完这一份，<span class="accent">留下三句话</span></p></div><div class="checklist" data-reveal><div class="chk"><b>01</b><strong>值守塔的棕色警戒气质是否成立？</strong></div><div class="chk"><b>02</b><strong>第一备选的定位传达清楚了吗？</strong></div><div class="chk"><b>03</b><strong>与 M1-E 的关系一屏够吗？</strong></div></div></div><p class="lede" data-reveal>审核结论：☐ 转正式 PPT　☐ 修改后再审　☐ 冻结为模块　（按 N 看演讲备注）</p></div><aside class="speaker-notes"></aside><span class="footer-mark">ENF-05 · 12/12 · 你的审核位</span></section></main><nav class="present-nav"><button id="pv" aria-label="上一页">←</button><span class="slide-count" id="sc">1 / 12</span><button id="nx" aria-label="下一页">→</button></nav><script>
+'use strict';
+class PC{constructor(){this.slides=[...document.querySelectorAll('.slide')];this.index=0;this.lock=false;
+ this.p=document.querySelector('#pf');this.c=document.querySelector('#sc');
+ this.ob=new IntersectionObserver(e=>this.on(e),{threshold:.62})}
+start(){this.slides.forEach(s=>this.ob.observe(s));
+ document.querySelector('#pv').addEventListener('click',()=>this.go(this.index-1));
+ document.querySelector('#nx').addEventListener('click',()=>this.go(this.index+1));
+ document.addEventListener('keydown',e=>this.k(e));
+ document.addEventListener('wheel',e=>this.w(e),{passive:true});
+ this.go(this.index,false)}
+on(es){const v=es.find(x=>x.isIntersecting);if(!v)return;this.index=this.slides.indexOf(v.target);
+ this.slides.forEach((s,i)=>s.classList.toggle('is-active',i===this.index));this.u()}
+k(e){const n=e.key.toLowerCase();
+ if(['arrowright','arrowdown','pagedown',' '].includes(n)){e.preventDefault();this.go(this.index+1)}
+ else if(['arrowleft','arrowup','pageup'].includes(n)){e.preventDefault();this.go(this.index-1)}
+ else if(e.key==='Home')this.go(0);else if(e.key==='End')this.go(this.slides.length-1);
+ else if(n==='n')document.body.classList.toggle('show-notes')}
+w(e){if(this.lock||Math.abs(e.deltaY)<18)return;this.lock=true;
+ this.go(this.index+(e.deltaY>0?1:-1));setTimeout(()=>this.lock=false,520)}
+go(i,s=true){this.index=Math.max(0,Math.min(this.slides.length-1,i));
+ this.slides[this.index].scrollIntoView({behavior:s?'smooth':'auto',block:'start'});this.u()}
+u(){this.c.textContent=`${this.index+1} / ${this.slides.length}`;
+ this.p.style.width=`${((this.index+1)/this.slides.length)*100}%`;
+ history.replaceState(null,'',`#s${this.index+1}`)}}
+const c=new PC(),h=Number(location.hash.replace('#s',''));
+if(Number.isInteger(h)&&h>=1)c.index=h-1;c.start();
 </script></body></html>
