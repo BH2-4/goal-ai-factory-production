@@ -26,18 +26,7 @@ DECKS = [
     dict(key='M1B', prd='PRD_M1B_Andon值守循环.md', theme='endfield', proj='P1',
          code='ENF-05', title='安灯中枢 AndonCop', sub='Andon 值守循环',
          anchor='S22 · 机加车间设备+质量混合', score='89.9', rank='作品层 2/9 · 第一备选'),
-    dict(key='M1A', prd='PRD_M1A_质量根因链.md', theme='zzz', proj='P1', neon='#35E0E8',
-         code='ZZ-06', title='质源侦探 RootCause Cop', sub='质量异常根因链 · 证据侦探墙',
-         anchor='S19 · 半导体/精密机加 SPC', score='86.6', rank='作品层 4/9 · 引擎模块'),
-    dict(key='M3C', prd='PRD_M3C_供应商风险哨兵.md', theme='zzz', proj='P3', neon='#D7FF3F',
-         code='ZZ-07', title='供脉哨兵 SupplySentinel', sub='供应商风险哨兵 · 情报播报台',
-         anchor='S13 · 机械/汽配多源风险监测', score='84.3', rank='作品层 7/9 · 模块库'),
-    dict(key='M3B', prd='PRD_M3B_缺料请购联动.md', theme='zzz', proj='P3', neon='#FF3D7F',
-         code='ZZ-08', title='齐购 QiBuy', sub='缺料请购联动 · 街头快办亭',
-         anchor='S16 · 机械/汽配周度请购', score='77.8', rank='作品层 9/9 · 内置模块'),
-    dict(key='M1E', prd='PRD_M1E_沉淀飞轮.md', theme='zzz', proj='P1', neon='#FFB020',
-         code='ZZ-09', title='车间记忆 ShopMemory', sub='沉淀飞轮 · 知识涂鸦墙',
-         anchor='S25 · 机加车间案例库与复发预警', score='85.5', rank='作品层 6/9 · 收官模块'),
+    # ZZZ 四份（M1A/M3C/M3B/M1E）已改由 build_zzz_decks.py 以编辑部式美术重新生成，此处不再生成
 ]
 
 CSS = """
