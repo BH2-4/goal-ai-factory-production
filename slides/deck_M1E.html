@@ -1,166 +1,184 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>车间记忆 ShopMemory · M1E 审核稿</title><style>
-:root{--ink:#171816;--muted:#676a64;--line:#cfd3ca;--paper:#f4f5f1;--white:#fff;
- --acid:#d7ff3f;--acid-deep:#91bd00;--coral:#f05a40;--cyan:#1eaeb7;--yellow:#ffcc4a;
- --acc:#1eaeb7;--deep:#137378;
- --title-size:clamp(1.9rem,6.6vh,4.4rem);--h2-size:clamp(1.5rem,4.8vh,3.1rem);
- --h3-size:clamp(.95rem,2.6vh,1.45rem);--body-size:clamp(.8rem,2.05vh,1.22rem);
- --small-size:clamp(.66rem,1.6vh,.92rem);--pad-y:clamp(1rem,4.6vh,3.6rem);
+:root{--ink:#16181D;--muted:#5B6472;--line:#C9CFD5;--paper:#EDEFF1;--white:#FAFBFC;
+ --amber:#E8630A;--steel:#3D5A6C;--sig:#B4540A;
+ --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+ --title-size:clamp(1.9rem,6.4vh,4.2rem);--h2-size:clamp(1.45rem,4.6vh,2.9rem);
+ --h3-size:clamp(.95rem,2.6vh,1.4rem);--body-size:clamp(.8rem,2.05vh,1.2rem);
+ --small-size:clamp(.66rem,1.6vh,.9rem);--pad-y:clamp(1rem,4.6vh,3.6rem);
  --pad-x:clamp(1rem,5%,5.2rem);--gap:clamp(.7rem,2.8vh,2rem);
  font-family:"Avenir Next","PingFang SC","Noto Sans CJK SC","Microsoft YaHei",sans-serif}
 *{box-sizing:border-box}html,body{height:100%;overflow-x:hidden}
 html{scroll-snap-type:y mandatory;scroll-behavior:smooth;background:var(--paper)}
-body{margin:0;color:var(--ink);letter-spacing:0}
-button{font:inherit}
-.slide{width:100vw;height:100vh;height:100dvh;overflow:hidden;scroll-snap-align:start;
- display:flex;flex-direction:column;position:relative;isolation:isolate;border-bottom:1px solid var(--line);
- background-color:var(--paper);background-image:linear-gradient(rgba(23,24,22,.035) 1px,transparent 1px),
- linear-gradient(90deg,rgba(23,24,22,.028) 1px,transparent 1px);background-size:64px 64px}
-.slide--dark{color:#f7f8f3;background-color:#1c1f1b;
- background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),
- linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px)}
+body{margin:0;color:var(--ink)}
+.slide{width:100vw;height:100vh;height:100dvh;overflow:hidden;scroll-snap-align:start;display:flex;
+ flex-direction:column;position:relative;isolation:isolate;border-bottom:1px solid var(--line);
+ background-color:var(--paper);background-image:linear-gradient(rgba(22,24,29,.03) 1px,transparent 1px),
+ linear-gradient(90deg,rgba(22,24,29,.03) 1px,transparent 1px);background-size:64px 64px}
 .slide--white{background-color:var(--white)}
+.slide--dark{color:#E8EBEE;background-color:#14171B;border-bottom:1px solid #2A2F36;
+ background-image:linear-gradient(rgba(232,235,238,.05) 1px,transparent 1px),
+ linear-gradient(90deg,rgba(232,235,238,.05) 1px,transparent 1px);background-size:64px 64px}
+.hazbar{position:absolute;left:0;right:0;top:0;height:8px;
+ background:repeating-linear-gradient(-45deg,var(--ink) 0 12px,var(--amber) 12px 24px)}
+.slide--dark .hazbar{background:repeating-linear-gradient(-45deg,#2A2F36 0 12px,var(--amber) 12px 24px)}
+.contour{position:absolute;inset:0;opacity:.5;pointer-events:none}
 .slide-content{flex:1;width:min(100%,1600px);max-height:100%;margin:0 auto;overflow:hidden;
- padding:var(--pad-y) var(--pad-x);display:flex;flex-direction:column;justify-content:center;gap:var(--gap)}
-.eyebrow{margin:0 0 .35rem;color:var(--muted);font-size:var(--small-size);font-weight:800;text-transform:uppercase;letter-spacing:.08em}
-.slide--dark .eyebrow{color:#aeb4aa}
-h1{max-width:16ch;margin:0;font-size:var(--title-size);line-height:1.05;font-weight:900}
-h2{max-width:22ch;margin:0;font-size:var(--h2-size);line-height:1.1;font-weight:900}
+ padding:calc(var(--pad-y) + 14px) var(--pad-x) var(--pad-y);display:flex;flex-direction:column;
+ justify-content:center;gap:var(--gap)}
+.mono{font-family:var(--mono)}
+.eyebrow{margin:0 0 .4rem;font-family:var(--mono);color:var(--steel);font-size:var(--small-size);
+ font-weight:700;text-transform:uppercase;letter-spacing:.14em}
+.slide--dark .eyebrow{color:#8FA6B5}
+h1{max-width:17ch;margin:0;font-size:var(--title-size);line-height:1.06;font-weight:800}
+h2{max-width:22ch;margin:0;font-size:var(--h2-size);line-height:1.12;font-weight:800;
+ border-left:8px solid var(--sig);padding-left:14px}
+.slide--dark h2{border-left-color:var(--amber);color:#F2F4F6}
 h3{margin:0 0 .35rem;font-size:var(--h3-size);line-height:1.2}
 p{margin:0;font-size:var(--body-size);line-height:1.55}
-.lede{max-width:38ch;color:var(--muted);font-size:clamp(.95rem,2.5vh,1.45rem)}
-.slide--dark .lede{color:#c7ccc2}
-.accent{color:var(--acc)}
-.slide--dark .accent{color:var(--acc)}
-.slide--dark .lede .accent,.slide--dark h1 .accent{color:var(--acc)}
+.lede{max-width:40ch;color:var(--muted);font-size:clamp(.95rem,2.4vh,1.4rem)}
+.slide--dark .lede{color:#A8B2BC}
+.accent{color:var(--sig)}
+.slide--dark .accent{color:var(--amber)}
 .brand{display:flex;align-items:center;gap:clamp(.65rem,1.5vh,1rem)}
-.brand .mono-badge{display:grid;place-items:center;width:clamp(42px,8vh,64px);height:clamp(42px,8vh,64px);
- border:2px solid currentColor;border-radius:6px;font-weight:900;font-size:var(--small-size);text-align:center}
-.brand strong{display:block;font-size:var(--body-size)}
+.brand .idplate{display:grid;place-items:center;width:clamp(44px,8vh,64px);height:clamp(44px,8vh,64px);
+ border:2px solid var(--ink);position:relative;font-family:var(--mono);font-weight:800;font-size:var(--small-size);
+ clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,0 100%);background:var(--white)}
+.brand .idplate::after{content:"";position:absolute;right:3px;top:3px;width:8px;height:8px;background:var(--amber)}
+.slide--dark .idplate{background:#1B2026;border-color:#E8EBEE}
+.brand strong{display:block;font-size:var(--body-size);font-family:var(--mono);letter-spacing:.06em}
 .brand span{display:block;color:var(--muted);font-size:var(--small-size)}
-.slide--dark .brand span{color:#aeb4aa}
-.signal{position:absolute;right:var(--pad-x);bottom:var(--pad-y);width:clamp(110px,22vh,200px);aspect-ratio:1;
- border:clamp(12px,2.3vh,22px) solid var(--acc);border-right-color:var(--coral);transform:rotate(18deg);z-index:-1;opacity:.8}
-.tag{display:inline-flex;align-items:center;min-height:1.7rem;padding:.2rem .6rem;border:1.5px solid currentColor;
- border-radius:4px;font-size:var(--small-size);font-weight:800;margin-right:.5rem}
-.big-number{font-size:clamp(3.4rem,16vh,10rem);font-weight:900;line-height:.85;color:var(--acc);font-variant-numeric:tabular-nums}
+.slide--dark .brand span{color:#8FA6B5}
+.reticle{position:absolute;right:var(--pad-x);bottom:var(--pad-y);width:clamp(120px,24vh,220px);aspect-ratio:1;
+ z-index:-1;opacity:.9}
+.reticle::before,.reticle::after{content:"";position:absolute;inset:0;border:2px solid var(--sig)}
+.reticle::before{clip-path:polygon(0 0,30% 0,30% 6%,6% 6%,6% 30%,0 30%,0 70%,6% 70%,6% 94%,30% 94%,30% 100%,0 100%,70% 100%,70% 94%,94% 94%,94% 70%,100% 70%,100% 30%,94% 30%,94% 6%,70% 6%,70% 0)}
+.reticle::after{inset:22%;border:1px solid var(--amber);transform:rotate(45deg)}
+.tag{display:inline-flex;align-items:center;min-height:1.7rem;padding:.2rem .6rem;border:1.5px solid var(--ink);
+ border-radius:2px;font-size:var(--small-size);font-weight:800;margin-right:.5rem;background:var(--white)}
+.slide--dark .tag{border-color:#E8EBEE;background:#1B2026}
+.big-number{font-family:var(--mono);font-size:clamp(3.2rem,15vh,9.5rem);font-weight:800;line-height:.88;
+ color:var(--amber);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
 .two-col{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);align-items:center;gap:clamp(1rem,5%,4.5rem)}
 .three-col{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(.55rem,2%,1.2rem)}
-.plain-panel{min-width:0;padding:clamp(.8rem,2.2vh,1.4rem);border:1px solid var(--line);border-top:5px solid var(--acc);background:rgba(255,255,255,.9)}
-.plain-panel:nth-child(2){border-top-color:var(--yellow)}
-.plain-panel:nth-child(3){border-top-color:var(--coral)}
-.plain-panel p{color:var(--muted);font-size:var(--small-size)}
-.plain-panel .score{font-size:clamp(1.6rem,5vh,2.8rem);font-weight:900;color:var(--deep)}
-.timeline{position:relative;display:grid;grid-template-columns:repeat(7,1fr);gap:.3rem;padding-top:2.3rem}
-.timeline::before{content:"";position:absolute;left:1%;right:1%;top:1.1rem;height:4px;background:var(--ink)}
-.timeline-step{position:relative;padding-top:.4rem}
-.timeline-step::before{content:"";position:absolute;top:calc(-1.5rem + 2px);left:0;width:.9rem;height:.9rem;
- border:4px solid var(--paper);border-radius:50%;background:var(--acc)}
-.timeline-step:nth-child(6)::before{background:var(--coral)}
-.timeline-step:nth-child(7)::before{background:var(--acid-deep)}
-.timeline-step strong{display:block;font-size:var(--small-size)}
-.timeline-step span{display:block;margin-top:.2rem;color:var(--muted);font-size:var(--small-size)}
-.old-flow{display:grid;gap:clamp(.5rem,1.4vh,.9rem);counter-reset:of}
-.old-flow div{counter-increment:of;display:grid;grid-template-columns:3rem 1fr;align-items:center;
- min-height:clamp(3rem,8.5vh,5rem);border-bottom:1px solid #464b43}
-.old-flow--light div{border-bottom:1px solid var(--line)}
-.old-flow div::before{content:"0" counter(of);color:var(--acc);font-size:var(--small-size);font-weight:900}
-.old-flow strong{font-size:clamp(.95rem,2.8vh,1.55rem)}
-.formula-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:clamp(.4rem,1.8vh,1rem);
- font-size:var(--body-size);font-weight:850}
-.formula-row span{min-width:clamp(5rem,15vh,8.5rem);padding:clamp(.5rem,1.6vh,.9rem);border:1.5px solid var(--ink);
- background:var(--white);text-align:center}
-.slide--dark .formula-row span{border-color:#f7f8f3;background:#252a24}
-.formula-row em{font-style:normal;color:var(--acc);font-weight:900}
-.chain-flow{display:grid;grid-template-columns:repeat(7,1fr);gap:clamp(.3rem,1vw,.8rem);align-items:stretch}
-.chain-node{min-height:clamp(4.4rem,13vh,8rem);padding:clamp(.55rem,1.8vh,1rem);border:1px solid #596057;background:#252a24}
-.chain-node strong{display:block;color:var(--acc);font-size:var(--small-size)}
-.chain-node span{display:block;margin-top:.35rem;color:#b9c0b5;font-size:var(--small-size);line-height:1.4}
-.evidence-scale{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(.55rem,2%,1.2rem)}
-.evidence-item{padding:clamp(.8rem,2.2vh,1.4rem);border:1px solid var(--line);background:var(--white)}
-.evidence-item b{display:block;font-size:clamp(1.8rem,6vh,3.8rem);line-height:1;color:var(--deep)}
-.evidence-item:nth-child(2) b{color:#287352}
-.evidence-item:nth-child(3) b{color:var(--coral)}
-.evidence-item p{margin:.5rem 0 0;color:var(--muted);font-size:var(--small-size)}
-.boundary{display:grid;grid-template-columns:auto 1fr;gap:.8rem;align-items:center;padding:clamp(.7rem,1.9vh,1.15rem);
- border-left:6px solid var(--coral);background:#fff5f2;margin-top:var(--gap)}
+.panel{min-width:0;padding:clamp(.8rem,2.2vh,1.35rem);border:1.5px solid var(--line);background:var(--white);
+ border-top:3px solid var(--sig);clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,0 100%);position:relative}
+.panel .uid{position:absolute;top:6px;right:18px;font-family:var(--mono);font-size:.6rem;color:var(--muted);letter-spacing:.1em}
+.panel:nth-child(2){border-top-color:var(--steel)}
+.panel:nth-child(3){border-top-color:var(--amber)}
+.panel p{color:var(--muted);font-size:var(--small-size)}
+.panel .score{font-family:var(--mono);font-size:clamp(1.5rem,4.8vh,2.6rem);font-weight:800;color:var(--sig)}
+.ops{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:clamp(.4rem,1.8vh,1rem);margin:clamp(.6rem,3vh,1.5rem) 0}
+.ops .op{min-width:clamp(5rem,15vh,8.5rem);padding:clamp(.5rem,1.6vh,.9rem);border:1.5px solid var(--ink);
+ background:var(--white);text-align:center;font-weight:800;font-size:var(--body-size);
+ clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%)}
+.slide--dark .ops .op{border-color:#E8EBEE;background:#1B2026;color:#E8EBEE}
+.ops em{font-style:normal;font-family:var(--mono);color:var(--amber);font-weight:800;font-size:1.3em}
+.chain{display:grid;grid-template-columns:repeat(7,1fr);gap:clamp(.3rem,1vw,.8rem)}
+.node{min-height:clamp(4.4rem,13vh,8rem);padding:clamp(.55rem,1.8vh,1rem);border:1px solid #3D5A6C;background:#1B2026;
+ clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%)}
+.node b{display:block;font-family:var(--mono);color:var(--amber);font-size:var(--small-size)}
+.node span{display:block;margin-top:.35rem;color:#A8B2BC;font-size:var(--small-size);line-height:1.4}
+.flow{display:grid;gap:clamp(.5rem,1.4vh,.9rem);counter-reset:fl}
+.flow div{counter-increment:fl;display:grid;grid-template-columns:3.2rem 1fr;align-items:center;
+ min-height:clamp(3rem,8.5vh,5rem);border-bottom:1px solid var(--line)}
+.flow div::before{content:counter(fl,decimal-leading-zero);font-family:var(--mono);color:var(--amber);
+ font-size:var(--small-size);font-weight:800}
+.flow strong{font-size:clamp(.95rem,2.8vh,1.5rem)}
+.gauge{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(.55rem,2%,1.2rem)}
+.gauge .g{padding:clamp(.8rem,2.2vh,1.35rem);border:1.5px solid var(--line);background:var(--white);
+ border-top:3px solid var(--sig);clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,0 100%)}
+.gauge .g b{display:block;font-family:var(--mono);font-size:clamp(1.7rem,5.6vh,3.4rem);line-height:1;color:var(--sig)}
+.gauge .g:nth-child(2) b{color:var(--steel)}
+.gauge .g:nth-child(3) b{color:#2F7D4F}
+.gauge .g p{margin:.5rem 0 0;color:var(--muted);font-size:var(--small-size)}
+.boundary{display:grid;grid-template-columns:auto 1fr;gap:.8rem;align-items:center;padding:clamp(.7rem,1.9vh,1.1rem);
+ border-left:6px solid var(--amber);background:#FDF3EC;margin-top:var(--gap)}
 .boundary strong{font-size:var(--body-size)}
+.boundary strong::before{content:"⚠ ";color:var(--amber)}
 .boundary span{color:var(--muted);font-size:var(--small-size)}
-.ask-list{display:grid;gap:clamp(.5rem,1.6vh,.9rem)}
-.ask-item{display:grid;grid-template-columns:clamp(2.2rem,5.5vh,3.6rem) 1fr;align-items:center;
- min-height:clamp(3rem,9vh,5.2rem);border-bottom:1px solid var(--line)}
-.slide--dark .ask-item{border-bottom-color:#464b43}
-.ask-item b{color:var(--acc);font-size:var(--h3-size)}
-.slide--dark .ask-item b{color:var(--acc)}
-.ask-item strong{font-size:clamp(.95rem,2.8vh,1.55rem)}
-.doc-panel{padding:clamp(1rem,3vh,1.8rem);border:2px solid var(--ink);background:var(--white);
- max-height:clamp(300px,58vh,460px);overflow:auto}
-.doc-panel h3{color:var(--deep)}
-.doc-panel p{font-size:var(--small-size);line-height:1.7;margin:.35rem 0}
-.doc-panel b{color:var(--deep)}
-.sticky{background:#fff9e6;border:1px solid #e5cf8a;box-shadow:3px 3px 0 rgba(152,96,16,.25);transform:rotate(-.6deg)}
-.rgy{display:inline-block;min-width:1.4rem;text-align:center;padding:.1rem .45rem;border-radius:3px;color:#171816;font-weight:900;font-size:var(--small-size)}
-.rgy--r{background:#ffd9d0}.rgy--y{background:#ffedbd}.rgy--g{background:#d9f2dc}
-.footer-mark{position:absolute;left:var(--pad-x);bottom:clamp(.45rem,1.7vh,1rem);color:var(--muted);
- font-size:clamp(.58rem,1.3vh,.78rem);font-weight:700}
-.slide--dark .footer-mark{color:#8e958b}
+.milestones{position:relative;display:grid;grid-template-columns:repeat(6,1fr);gap:.3rem;padding-top:2.2rem}
+.milestones::before{content:"";position:absolute;left:1%;right:1%;top:1rem;height:3px;background:var(--ink)}
+.ms{position:relative;padding-top:.4rem}
+.ms::before{content:"";position:absolute;top:-1.4rem;left:0;width:.85rem;height:.85rem;background:var(--sig);
+ border:3px solid var(--paper);border-radius:2px}
+.ms:nth-child(4)::before,.ms:nth-child(5)::before{background:var(--amber)}
+.ms:nth-child(6)::before{background:var(--steel)}
+.ms strong{display:block;font-size:var(--small-size)}
+.ms span{display:block;margin-top:.2rem;color:var(--muted);font-size:var(--small-size)}
+.doc{padding:clamp(1rem,3vh,1.7rem);border:2px solid var(--ink);background:var(--white);
+ max-height:clamp(300px,56vh,450px);overflow:auto;position:relative;
+ clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,0 100%)}
+.doc::before{content:"BLUEPRINT · PRD §12";position:absolute;top:8px;right:22px;font-family:var(--mono);
+ font-size:.6rem;color:var(--muted);letter-spacing:.12em}
+.doc h3{color:var(--sig)}
+.doc p{font-size:var(--small-size);line-height:1.7;margin:.35rem 0}
+.doc b{color:var(--sig)}
+.checklist{display:grid;gap:clamp(.5rem,1.6vh,.9rem)}
+.chk{display:grid;grid-template-columns:clamp(2.2rem,5.5vh,3.6rem) 1fr;align-items:center;
+ min-height:clamp(3rem,9vh,5.2rem);border-bottom:1px solid #2A2F36}
+.chk b{font-family:var(--mono);color:var(--amber);font-size:var(--h3-size)}
+.chk strong{font-size:clamp(.95rem,2.8vh,1.5rem)}
+.footer-mark{position:absolute;left:var(--pad-x);bottom:clamp(.45rem,1.7vh,1rem);font-family:var(--mono);
+ color:var(--muted);font-size:clamp(.58rem,1.3vh,.76rem);font-weight:700;letter-spacing:.06em}
+.slide--dark .footer-mark{color:#77828D}
 .present-nav{position:fixed;right:clamp(.6rem,2%,1.4rem);bottom:clamp(.6rem,2vh,1.2rem);z-index:50;display:flex;
- align-items:center;gap:.45rem;padding:.35rem;border:1px solid rgba(23,24,22,.2);border-radius:5px;background:rgba(255,255,255,.9);backdrop-filter:blur(10px)}
+ align-items:center;gap:.45rem;padding:.35rem;border:1.5px solid var(--ink);border-radius:3px;background:rgba(250,251,252,.94)}
 .present-nav button{width:2rem;height:2rem;padding:0;border:0;background:transparent;color:var(--ink);cursor:pointer;font-size:1.05rem}
-.slide-count{min-width:3.8rem;text-align:center;font-size:.72rem;font-weight:800}
-.progress{position:fixed;inset:0 0 auto;z-index:60;height:4px;background:rgba(23,24,22,.12)}
-.progress span{display:block;width:10%;height:100%;background:var(--coral);transition:width 220ms ease}
+.slide-count{min-width:3.8rem;text-align:center;font-size:.72rem;font-weight:800;font-family:var(--mono)}
+.progress{position:fixed;inset:0 0 auto;z-index:60;height:4px;background:rgba(22,24,29,.12)}
+.progress span{display:block;width:10%;height:100%;background:var(--amber);transition:width 220ms ease}
 .speaker-notes{display:none;position:absolute;left:var(--pad-x);right:var(--pad-x);bottom:clamp(1.6rem,4vh,2.8rem);
- z-index:30;max-height:30vh;overflow:auto;padding:.8rem 1rem;border:1px solid var(--ink);background:rgba(255,255,255,.96);
+ z-index:30;max-height:30vh;overflow:auto;padding:.8rem 1rem;border:1.5px solid var(--ink);background:rgba(250,251,252,.97);
  color:var(--ink);font-size:clamp(.66rem,1.55vh,.9rem);line-height:1.55}
 body.show-notes .slide.is-active .speaker-notes{display:block}
-[data-reveal]{opacity:0;transform:translateY(18px);transition:opacity .42s ease,transform .42s ease}
+[data-reveal]{opacity:0;transform:translateY(16px);transition:opacity .4s ease,transform .4s ease}
 .is-active [data-reveal]{opacity:1;transform:translateY(0)}
 .is-active [data-reveal]:nth-child(2){transition-delay:80ms}
 .is-active [data-reveal]:nth-child(3){transition-delay:150ms}
 .is-active [data-reveal]:nth-child(4){transition-delay:220ms}
-@media (max-width:760px){.two-col,.three-col,.evidence-scale{grid-template-columns:1fr}
- .timeline{grid-template-columns:1fr;padding-top:0}.timeline::before,.timeline-step::before{display:none}
- .chain-flow{grid-template-columns:1fr}.signal{opacity:.5}}
+@media (max-width:760px){.two-col,.three-col,.gauge{grid-template-columns:1fr}
+ .milestones{grid-template-columns:1fr;padding-top:0}.milestones::before,.ms::before{display:none}
+ .chain{grid-template-columns:1fr}.reticle{opacity:.4}}
 @media (prefers-reduced-motion:reduce){*[data-reveal]{opacity:1;transform:none;transition:none}}
 @media print{html,body{overflow:visible;height:auto}
  .slide{page-break-after:always;height:100vh}.present-nav,.progress{display:none}
  [data-reveal]{opacity:1;transform:none}}
-</style></head><body style="--acc:#ffcc4a;--deep:#986010"><div class="progress" aria-hidden="true"><span id="pf"></span></div><main id="deck"><section class="slide slide--dark" id="s1" aria-label="第1屏"><div class="slide-content"><div class="brand" data-reveal><div class="mono-badge">ZZ-09</div><div><strong>SHOP MEMORY ARCHIVE</strong><span>沉淀飞轮 · 知识涂鸦墙 · 非官方审核稿</span></div></div><div data-reveal><p class="eyebrow">GOAI 无界应用 · AI+工业制造 // ZZ-09</p><h1>老师傅走了，<span class="accent">经验不该跟着走</span></h1></div><p class="lede" data-reveal>每次异常关闭都自动变成结构化案例；复发早期自动匹配历史案例并推送预案——沉淀是系统的义务，不是人的义务。</p><div data-reveal style="display:flex;flex-wrap:wrap;align-items:center"><span class="tag">自动沉淀</span><span class="tag">复发预警</span><span class="tag">人定SOP</span><span class="tag">作品层 85.5 分 · 收官模块</span><span class="tag">S25 机加车间案例库</span></div></div><aside class="speaker-notes">这是车间记忆 ShopMemory的审核稿。按 N 可以看每屏的演讲备注。</aside><span class="footer-mark">01 / 12 · 微循环自主 · 宏流程门禁</span></section>
-<section class="slide slide--paper" id="s2" aria-label="第2屏"><div class="slide-content"><div data-reveal><p class="eyebrow">SCENE ANCHOR · PRD §1</p><h2>三个候选场景，选和安灯中枢同一条数据流的</h2></div><div class="three-col" data-reveal><section class="plain-panel sticky"><h3>S25 机加车间案例库</h3><div class="score">86.6 ✓</div><p>与安灯中枢同车间同数据流，关闭记录直接入案例库</p></section><section class="plain-panel"><h3>S27 集团知识网络</h3><div class="score">85.3</div><p>多厂区数据组织复杂，单机 Demo 单薄</p></section><section class="plain-panel"><h3>S26 注塑配方知识库</h3><div class="score">83.3</div><p>调机 AI 商业玩家多，差异化弱</p></section></div><p class="lede" data-reveal style="margin-top:.4rem">分差 1.3<3：D2 平（4=4），回总分定夺。真正的原因是工程性的：M1-B 的每一次异常关闭，天然就是本 MVP 的一次数据生产。</p></div><aside class="speaker-notes"></aside><span class="footer-mark">02 / 12 · 场景为什么这么选</span></section>
-<section class="slide slide--white" id="s3" aria-label="第3屏"><div class="slide-content"><div class="two-col"><div data-reveal><p class="eyebrow">THE PAIN · PRD §3</p><div class="big-number">30%<span style="font-size:.35em"> 复发率</span></div><h2>同类异常，反复发生</h2><p class="lede">量化假设：同类异常复发率 ≥30%（复盘缺失口径）。飞轮的意义，就藏在这个数字里。</p></div><div class="old-flow old-flow--light" data-reveal><div><strong>复盘无人写，处理记录散在微信群</strong></div><div><strong>老师傅离职，经验跟着走</strong></div><div><strong>复发时从头踩坑，预案不存在</strong></div></div></div></div><aside class="speaker-notes"></aside><span class="footer-mark">03 / 12 · 痛点的量化假设</span></section>
-<section class="slide slide--paper" id="s4" aria-label="第4屏"><div class="slide-content"><div data-reveal><p class="eyebrow">THE OFFER · PRD §2</p><h2>把流程交给系统，把决定留给人</h2></div><div class="formula-row" data-reveal style="margin:clamp(.6rem,3vh,1.6rem) 0"><span>异常关闭</span><span>+</span><span>结构化案例</span><em>→</em><span>复发预警 + 预案推送</span></div><p class="lede" data-reveal>沉淀是系统的义务，不是人的义务。预案采纳与 SOP 修订，依然由工程师与主管签字。</p></div><aside class="speaker-notes"></aside><span class="footer-mark">04 / 12 · 定位一句话</span></section>
-<section class="slide slide--white" id="s5" aria-label="第5屏"><div class="slide-content"><div data-reveal><p class="eyebrow">AGENT CREW · PRD §4</p><h2>微循环自主，宏流程门禁</h2></div><div class="three-col" data-reveal><section class="plain-panel sticky"><h3>案例结构化 Agent</h3><p>关闭记录 → 现象/根因/措施/备件/耗时的结构化案例</p></section><section class="plain-panel sticky"><h3>复发监测 Agent</h3><p>新异常早期特征匹配历史案例，相似度排序，预案推送</p></section><section class="plain-panel sticky"><h3>知识运营 Agent</h3><p>月度 Pareto、复发模式聚类、SOP 修订建议、知识缺口提示</p></section></div><div class="boundary" data-reveal><strong>微循环 ×2：关闭→结构化→入库；早期→匹配→推送</strong><span>宏门禁：预案采纳 = 工程师；SOP 修订 = 主管审批</span></div></div><aside class="speaker-notes"></aside><span class="footer-mark">05 / 12 · Agent 分工与门禁</span></section>
-<section class="slide slide--dark" id="s6" aria-label="第6屏"><div class="slide-content"><div data-reveal><p class="eyebrow">CLOSED LOOP · PRD §5（手册 8.2）</p><h2 style="color:#f7f8f3">一条链走完，七步都有落点</h2></div><div class="chain-flow" data-reveal><div class="chain-node"><strong>1 任务输入</strong><span>告警/工单/缺口流入</span></div><div class="chain-node"><strong>2 意图理解</strong><span>分类·定级·影响面</span></div><div class="chain-node"><strong>3 任务规划</strong><span>追溯/求解/起草计划</span></div><div class="chain-node"><strong>4 能力调用</strong><span>库·API·求解器</span></div><div class="chain-node"><strong>5 结果交付</strong><span>证据链/动作包</span></div><div class="chain-node"><strong>6 验证反馈</strong><span>命中率·回放·人确认</span></div><div class="chain-node"><strong>7 安全边界</strong><span>终点决策留给人</span></div></div><p class="lede" data-reveal style="color:#c7ccc2">七步落点：关闭事件输入、案例要素抽取、结构化入库计划、向量检索与规则、案例+预案+复盘、复发命中率统计、SOP 走既有审批。</p></div><aside class="speaker-notes"></aside><span class="footer-mark">06 / 12 · 闭环七步（手册 8.2）</span></section>
-<section class="slide slide--white" id="s7" aria-label="第7屏"><div class="slide-content"><div data-reveal><p class="eyebrow">EVIDENCE & METRICS · PRD §6/§7</p><h2>知道什么，和模拟什么，分开写</h2></div><div class="evidence-scale" data-reveal><section class="evidence-item"><b>≥75%</b><p>复发剧本 Top-3 命中率（预置 100 条历史案例）</p></section><section class="evidence-item"><b>≥95%</b><p>案例字段完整率；人工抽检队列兜底</p></section><section class="evidence-item"><b>≤5 分钟</b><p>月度复盘报告生成（原 ≥4 小时/月）</p></section></div><p class="lede" data-reveal style="margin-top:.4rem">价值滞后的痛点用"对比演示"解决：同一异常第二次出现时，有无飞轮的响应差异，一屏看清。</p></div><aside class="speaker-notes"></aside><span class="footer-mark">07 / 12 · 证据与指标</span></section>
-<section class="slide slide--paper" id="s8" aria-label="第8屏"><div class="slide-content"><div data-reveal><p class="eyebrow">SAFETY BOUNDARY · PRD §8</p><h2>记忆不审判人</h2></div><div class="boundary" data-reveal><strong>知识建议域</strong><span>不替代 SOP 审批与专业判断（手册 9.3）</span></div><div class="boundary" data-reveal><strong>不含人员绩效评价</strong><span>案例只记事不记人，规避 HR 敏感；模拟数据披露</span></div><p class="lede" data-reveal>知识墙只贴"事"，不贴"谁"——这是它能在车间活下来的前提。</p></div><aside class="speaker-notes"></aside><span class="footer-mark">08 / 12 · 安全合规口径</span></section>
-<section class="slide slide--white" id="s9" aria-label="第9屏"><div class="slide-content"><div data-reveal><p class="eyebrow">ROADMAP · PRD §9</p><h2>三档排期：材料、可运行、现场</h2></div><div class="timeline" data-reveal><div class="timeline-step"><strong>初赛 8.16</strong><span>P1 叙事"飞轮"页</span></div><div class="timeline-step"><strong>复赛 9.3</strong><span>与安灯中枢串联</span></div><div class="timeline-step"><strong>决赛 9.22</strong><span>复发剧本现场回放</span></div><div class="timeline-step"><strong>角色</strong><span>M1-B 的收官模块</span></div></div></div><aside class="speaker-notes"></aside><span class="footer-mark">09 / 12 · 三档排期</span></section>
-<section class="slide slide--paper" id="s10" aria-label="第10屏"><div class="slide-content"><div data-reveal><p class="eyebrow">OPEN SOURCE & RISKS · PRD §10/§11</p><h2>留下的不只是演示，是可复用的件</h2></div><div class="three-col" data-reveal><section class="plain-panel sticky"><h3>案例库 schema</h3><p>五要素结构化定义</p></section><section class="plain-panel sticky"><h3>CBR 检索模板</h3><p>向量 + 规则的混合检索</p></section><section class="plain-panel sticky"><h3>复盘生成器</h3><p>Pareto 与复发模式报告</p></section></div><div class="boundary" data-reveal><strong>最大风险与对策</strong><span>冷启动无案例 → 预置 100 条 + 字段门禁；质量差 → 结构化校验 + 人工抽检。</span></div></div><aside class="speaker-notes"></aside><span class="footer-mark">10 / 12 · 开源物与风险</span></section>
-<section class="slide slide--white" id="s11" aria-label="第11屏"><div class="slide-content"><div data-reveal><p class="eyebrow">500-WORD BRIEF · PRD §12</p><h2>参赛简介 · 八要素（≤500 字）</h2></div><div class="doc-panel" data-reveal><p><b>项目名称：</b>车间记忆 ShopMemory——异常案例沉淀与复发预警智能体</p><p><b>行业赛题：</b>AI+工业制造</p><p><b>目标用户：</b>机加车间设备、质量与工艺工程师及车间主任</p><p><b>核心问题：</b>同类异常反复发生，处理经验随人员流失，复盘无人写、知识不沉淀</p><p><b>解决方案：</b>三 Agent 飞轮：案例结构化将关闭记录转为结构化案例，复发监测早期匹配并推送预案，知识运营生成 Pareto 与 SOP 修订建议</p><p><b>创新点：</b>把"经验沉淀"从人工义务变成自动飞轮；复发时预案先行；预案采纳与 SOP 修订由人拍板</p><p><b>开放/复用价值：</b>开源案例库 schema、CBR 检索模板与复盘生成器，可挂接任意工单系统</p><p><b>当前进展：</b>方案设计完成，预置案例集制作与原型开发中，提交时附飞轮回放演示</p></div></div><aside class="speaker-notes"></aside><span class="footer-mark">11 / 12 · 参赛简介</span></section>
-<section class="slide slide--dark" id="s12" aria-label="第12屏"><div class="slide-content"><div class="two-col"><div data-reveal><p class="eyebrow">REVIEW · 你的审核位</p><p style="font-size:var(--h2-size);font-weight:900;line-height:1.1;max-width:14ch">看完这一份，<span class="accent">留下三句话</span></p></div><div class="ask-list" data-reveal><div class="ask-item"><b>01</b><strong>知识墙的便签感是否成立？</strong></div><div class="ask-item"><b>02</b><strong>"飞轮"叙事是否讲清楚了？</strong></div><div class="ask-item"><b>03</b><strong>作为 M1-B 收官模块，要不要并回 M1-B 的 deck？</strong></div></div></div><p class="lede" data-reveal style="color:#c7ccc2">审核结论：☐ 转正式 PPT　☐ 修改后再审　☐ 冻结为模块　（按 N 看演讲备注）</p></div><aside class="speaker-notes"></aside><span class="footer-mark">12 / 12 · 你的审核位</span></section></main><nav class="present-nav" aria-label="演示导航"><button id="pv" aria-label="上一页">←</button><span class="slide-count" id="sc">1 / 12</span><button id="nx" aria-label="下一页">→</button></nav><script>
+</style></head><body style="--sig:#8A5A0A"><div class="progress" aria-hidden="true"><span id="pf"></span></div><main id="deck"><section class="slide slide--paper" id="s1" aria-label="第1屏"><div class="hazbar"></div><svg class="contour" viewBox="0 0 1280 720" preserveAspectRatio="none"><g fill="none" stroke="#3D5A6C" stroke-opacity=".12"><path d="M-40 620 Q 300 480 640 560 T 1340 520"/><path d="M-40 660 Q 320 530 660 600 T 1340 570"/><path d="M-40 700 Q 340 580 700 640 T 1340 620"/><path d="M900 -40 Q 1050 200 980 420 T 1120 760"/><path d="M960 -40 Q 1120 210 1040 430 T 1180 760"/></g></svg><div class="slide-content"><div class="brand" data-reveal><div class="idplate">E09</div><div><strong>SHOP FLOOR ARCHIVE</strong><span>沉淀飞轮 · 车间档案室 · 非官方审核稿</span></div></div><div data-reveal><p class="eyebrow">GOAI 无界应用 · AI+工业制造 // ENF-09 · UNIT FILE</p><h1>老师傅走了，<span class="accent">经验不该跟着走</span></h1></div><p class="lede" data-reveal>每一次异常关闭自动归档成结构化案例；复发早期自动调出历史预案——归档是系统的工序，不是人的负担。</p><div data-reveal style="display:flex;flex-wrap:wrap;align-items:center"><span class="tag">自动归档</span><span class="tag">复发预警</span><span class="tag">SOP 人工审定</span><span class="tag">作品层 85.5 分 · 收官模块</span><span class="tag">S25 机加车间案例库</span></div><div class="reticle"></div></div><aside class="speaker-notes">这是车间记忆 ShopMemory的审核稿。按 N 可看演讲备注。</aside><span class="footer-mark">ENF-09 · 01/12 · 微循环自主 · 宏流程门禁</span></section>
+<section class="slide slide--white" id="s2" aria-label="第2屏"><div class="hazbar"></div><svg class="contour" viewBox="0 0 1280 720" preserveAspectRatio="none"><g fill="none" stroke="#3D5A6C" stroke-opacity=".12"><path d="M-40 620 Q 300 480 640 560 T 1340 520"/><path d="M-40 660 Q 320 530 660 600 T 1340 570"/><path d="M-40 700 Q 340 580 700 640 T 1340 620"/><path d="M900 -40 Q 1050 200 980 420 T 1120 760"/><path d="M960 -40 Q 1120 210 1040 430 T 1180 760"/></g></svg><div class="slide-content"><div data-reveal><p class="eyebrow">SCENE ANCHOR // PRD §1</p><h2>三个候选场景，选和安灯中枢同一条数据流的</h2></div><div class="three-col" data-reveal><section class="panel"><span class="uid">ALT-1</span><h3>S25 机加车间案例库</h3><div class="score">86.6 ✓</div><p>与安灯中枢同车间同数据流，关闭记录直接入案例库</p></section><section class="panel"><span class="uid">ALT-2</span><h3>S27 集团知识网络</h3><div class="score">85.3</div><p>多厂区数据组织复杂，单机 Demo 单薄</p></section><section class="panel"><span class="uid">ALT-3</span><h3>S26 注塑配方知识库</h3><div class="score">83.3</div><p>调机 AI 商业玩家多，差异化弱</p></section></div><p class="lede" data-reveal style="margin-top:.4rem">分差 1.3<3：D2 平（4=4），回总分定夺。真正的原因是工程性的：M1-B 的每一次异常关闭，天然就是本 MVP 的一次数据生产。</p></div><aside class="speaker-notes"></aside><span class="footer-mark">ENF-09 · 02/12 · 场景为什么这么选</span></section>
+<section class="slide slide--paper" id="s3" aria-label="第3屏"><div class="hazbar"></div><svg class="contour" viewBox="0 0 1280 720" preserveAspectRatio="none"><g fill="none" stroke="#3D5A6C" stroke-opacity=".12"><path d="M-40 620 Q 300 480 640 560 T 1340 520"/><path d="M-40 660 Q 320 530 660 600 T 1340 570"/><path d="M-40 700 Q 340 580 700 640 T 1340 620"/><path d="M900 -40 Q 1050 200 980 420 T 1120 760"/><path d="M960 -40 Q 1120 210 1040 430 T 1180 760"/></g></svg><div class="slide-content"><div class="two-col"><div data-reveal><p class="eyebrow">THE PAIN // PRD §3</p><div class="big-number">30%<span style="font-size:.32em"> 复发率</span></div><h2>同类异常，反复发生</h2><p class="lede">量化假设：同类异常复发率 ≥30%（复盘缺失口径）。飞轮的意义，就藏在这个数字里。</p></div><div class="flow" data-reveal><div><strong>复盘无人写，处理记录散在微信群</strong></div><div><strong>老师傅离职，经验跟着走</strong></div><div><strong>复发时从头踩坑，预案不存在</strong></div></div></div></div><aside class="speaker-notes"></aside><span class="footer-mark">ENF-09 · 03/12 · 痛点的量化假设</span></section>
+<section class="slide slide--white" id="s4" aria-label="第4屏"><div class="hazbar"></div><svg class="contour" viewBox="0 0 1280 720" preserveAspectRatio="none"><g fill="none" stroke="#3D5A6C" stroke-opacity=".12"><path d="M-40 620 Q 300 480 640 560 T 1340 520"/><path d="M-40 660 Q 320 530 660 600 T 1340 570"/><path d="M-40 700 Q 340 580 700 640 T 1340 620"/><path d="M900 -40 Q 1050 200 980 420 T 1120 760"/><path d="M960 -40 Q 1120 210 1040 430 T 1180 760"/></g></svg><div class="slide-content"><div data-reveal><p class="eyebrow">THE OFFER // PRD §2</p><h2>流程交给系统，决定留给人</h2></div><div class="ops" data-reveal><span class="op">异常关闭</span><span class="op">+</span><span class="op">结构化归档</span><em> → </em><span class="op">复发预警 + 预案推送</span></div><p class="lede" data-reveal>归档是系统的工序，不是人的负担。预案采纳与 SOP 修订，依然由工程师与主管签字。</p></div><aside class="speaker-notes"></aside><span class="footer-mark">ENF-09 · 04/12 · 定位一句话</span></section>
+<section class="slide slide--dark" id="s5" aria-label="第5屏"><div class="hazbar"></div><div class="slide-content"><div data-reveal><p class="eyebrow">AGENT CREW // PRD §4</p><h2>微循环自主，宏流程门禁</h2></div><div class="three-col" data-reveal><section class="panel"><span class="uid">AGT-01</span><h3>案例结构化 Agent</h3><p>关闭记录 → 现象/根因/措施/备件/耗时的结构化案例</p></section><section class="panel"><span class="uid">AGT-02</span><h3>复发监测 Agent</h3><p>新异常早期特征匹配历史案例，相似度排序，预案推送</p></section><section class="panel"><span class="uid">AGT-03</span><h3>知识运营 Agent</h3><p>月度 Pareto、复发模式聚类、SOP 修订建议、知识缺口提示</p></section></div><div class="boundary" data-reveal><strong>微循环 ×2：关闭→结构化→入库；早期→匹配→推送</strong><span>宏门禁：预案采纳 = 工程师；SOP 修订 = 主管审批</span></div></div><aside class="speaker-notes"></aside><span class="footer-mark">ENF-09 · 05/12 · Agent 分工与门禁</span></section>
+<section class="slide slide--white" id="s6" aria-label="第6屏"><div class="hazbar"></div><svg class="contour" viewBox="0 0 1280 720" preserveAspectRatio="none"><g fill="none" stroke="#3D5A6C" stroke-opacity=".12"><path d="M-40 620 Q 300 480 640 560 T 1340 520"/><path d="M-40 660 Q 320 530 660 600 T 1340 570"/><path d="M-40 700 Q 340 580 700 640 T 1340 620"/><path d="M900 -40 Q 1050 200 980 420 T 1120 760"/><path d="M960 -40 Q 1120 210 1040 430 T 1180 760"/></g></svg><div class="slide-content"><div data-reveal><p class="eyebrow">CLOSED LOOP // PRD §5 · 手册 8.2</p><h2 style="color:#F2F4F6">一条链走完，七步都有落点</h2></div><div class="chain" data-reveal><div class="node"><b>01 任务输入</b><span>告警/工单/缺口流入</span></div><div class="node"><b>02 意图理解</b><span>分类·定级·影响面</span></div><div class="node"><b>03 任务规划</b><span>追溯/求解/起草计划</span></div><div class="node"><b>04 能力调用</b><span>库·API·求解器</span></div><div class="node"><b>05 结果交付</b><span>证据链/动作包</span></div><div class="node"><b>06 验证反馈</b><span>命中率·回放·人确认</span></div><div class="node"><b>07 安全边界</b><span>终点决策留给人</span></div></div><p class="lede" data-reveal>七步落点：关闭事件输入、案例要素抽取、结构化入库计划、向量检索与规则、案例+预案+复盘、复发命中率统计、SOP 走既有审批。</p></div><aside class="speaker-notes"></aside><span class="footer-mark">ENF-09 · 06/12 · 闭环七步（手册 8.2）</span></section>
+<section class="slide slide--paper" id="s7" aria-label="第7屏"><div class="hazbar"></div><svg class="contour" viewBox="0 0 1280 720" preserveAspectRatio="none"><g fill="none" stroke="#3D5A6C" stroke-opacity=".12"><path d="M-40 620 Q 300 480 640 560 T 1340 520"/><path d="M-40 660 Q 320 530 660 600 T 1340 570"/><path d="M-40 700 Q 340 580 700 640 T 1340 620"/><path d="M900 -40 Q 1050 200 980 420 T 1120 760"/><path d="M960 -40 Q 1120 210 1040 430 T 1180 760"/></g></svg><div class="slide-content"><div data-reveal><p class="eyebrow">EVIDENCE & METRICS // PRD §6/§7</p><h2>已知与模拟，分开建档</h2></div><div class="gauge" data-reveal><section class="g"><b>≥75%</b><p>复发剧本 Top-3 命中率（预置 100 条历史案例）</p></section><section class="g"><b>≥95%</b><p>案例字段完整率；人工抽检队列兜底</p></section><section class="g"><b>≤5 分钟</b><p>月度复盘报告生成（原 ≥4 小时/月）</p></section></div><p class="lede" data-reveal style="margin-top:.4rem">价值滞后的痛点用"对比演示"解决：同一异常第二次出现时，有无飞轮的响应差异，一屏看清。</p></div><aside class="speaker-notes"></aside><span class="footer-mark">ENF-09 · 07/12 · 证据与指标</span></section>
+<section class="slide slide--white" id="s8" aria-label="第8屏"><div class="hazbar"></div><svg class="contour" viewBox="0 0 1280 720" preserveAspectRatio="none"><g fill="none" stroke="#3D5A6C" stroke-opacity=".12"><path d="M-40 620 Q 300 480 640 560 T 1340 520"/><path d="M-40 660 Q 320 530 660 600 T 1340 570"/><path d="M-40 700 Q 340 580 700 640 T 1340 620"/><path d="M900 -40 Q 1050 200 980 420 T 1120 760"/><path d="M960 -40 Q 1120 210 1040 430 T 1180 760"/></g></svg><div class="slide-content"><div data-reveal><p class="eyebrow">SAFETY BOUNDARY // PRD §8</p><h2>档案只记事，不审判人</h2></div><div class="boundary" data-reveal><strong>知识建议域</strong><span>不替代 SOP 审批与专业判断（手册 9.3）</span></div><div class="boundary" data-reveal><strong>不含人员绩效评价</strong><span>案例只记事不记人，规避 HR 敏感；模拟数据披露</span></div><p class="lede" data-reveal>档案室只归档"事"，不归档"谁"——这是它能在车间活下来的前提。</p></div><aside class="speaker-notes"></aside><span class="footer-mark">ENF-09 · 08/12 · 安全合规口径</span></section>
+<section class="slide slide--paper" id="s9" aria-label="第9屏"><div class="hazbar"></div><svg class="contour" viewBox="0 0 1280 720" preserveAspectRatio="none"><g fill="none" stroke="#3D5A6C" stroke-opacity=".12"><path d="M-40 620 Q 300 480 640 560 T 1340 520"/><path d="M-40 660 Q 320 530 660 600 T 1340 570"/><path d="M-40 700 Q 340 580 700 640 T 1340 620"/><path d="M900 -40 Q 1050 200 980 420 T 1120 760"/><path d="M960 -40 Q 1120 210 1040 430 T 1180 760"/></g></svg><div class="slide-content"><div data-reveal><p class="eyebrow">ROADMAP // PRD §9</p><h2>三档排期：材料、可运行、现场</h2></div><div class="milestones" data-reveal><div class="ms"><strong>初赛 8.16</strong><span>P1 叙事"飞轮"页</span></div><div class="ms"><strong>复赛 9.3</strong><span>与安灯中枢串联</span></div><div class="ms"><strong>决赛 9.22</strong><span>复发剧本现场回放</span></div><div class="ms"><strong>角色</strong><span>M1-B 的收官模块</span></div></div></div><aside class="speaker-notes"></aside><span class="footer-mark">ENF-09 · 09/12 · 三档排期</span></section>
+<section class="slide slide--white" id="s10" aria-label="第10屏"><div class="hazbar"></div><svg class="contour" viewBox="0 0 1280 720" preserveAspectRatio="none"><g fill="none" stroke="#3D5A6C" stroke-opacity=".12"><path d="M-40 620 Q 300 480 640 560 T 1340 520"/><path d="M-40 660 Q 320 530 660 600 T 1340 570"/><path d="M-40 700 Q 340 580 700 640 T 1340 620"/><path d="M900 -40 Q 1050 200 980 420 T 1120 760"/><path d="M960 -40 Q 1120 210 1040 430 T 1180 760"/></g></svg><div class="slide-content"><div data-reveal><p class="eyebrow">OPEN SOURCE & RISKS // PRD §10/§11</p><h2>留下的不只是演示，是可复用的件</h2></div><div class="three-col" data-reveal><section class="panel"><span class="uid">OS-01</span><h3>案例库 schema</h3><p>五要素结构化定义</p></section><section class="panel"><span class="uid">OS-02</span><h3>CBR 检索模板</h3><p>向量 + 规则的混合检索</p></section><section class="panel"><span class="uid">OS-03</span><h3>复盘生成器</h3><p>Pareto 与复发模式报告</p></section></div><div class="boundary" data-reveal><strong>最大风险与对策</strong><span>冷启动无案例 → 预置 100 条 + 字段门禁；质量差 → 结构化校验 + 人工抽检。</span></div></div><aside class="speaker-notes"></aside><span class="footer-mark">ENF-09 · 10/12 · 开源物与风险</span></section>
+<section class="slide slide--paper" id="s11" aria-label="第11屏"><div class="hazbar"></div><svg class="contour" viewBox="0 0 1280 720" preserveAspectRatio="none"><g fill="none" stroke="#3D5A6C" stroke-opacity=".12"><path d="M-40 620 Q 300 480 640 560 T 1340 520"/><path d="M-40 660 Q 320 530 660 600 T 1340 570"/><path d="M-40 700 Q 340 580 700 640 T 1340 620"/><path d="M900 -40 Q 1050 200 980 420 T 1120 760"/><path d="M960 -40 Q 1120 210 1040 430 T 1180 760"/></g></svg><div class="slide-content"><div data-reveal><p class="eyebrow">500-WORD BRIEF // PRD §12</p><h2>参赛简介 · 八要素（≤500 字）</h2></div><div class="doc" data-reveal><p><b>项目名称：</b>车间记忆 ShopMemory——异常案例沉淀与复发预警智能体</p><p><b>行业赛题：</b>AI+工业制造</p><p><b>目标用户：</b>机加车间设备、质量与工艺工程师及车间主任</p><p><b>核心问题：</b>同类异常反复发生，处理经验随人员流失，复盘无人写、知识不沉淀</p><p><b>解决方案：</b>三 Agent 飞轮：案例结构化将关闭记录转为结构化案例，复发监测早期匹配并推送预案，知识运营生成 Pareto 与 SOP 修订建议</p><p><b>创新点：</b>把"经验沉淀"从人工义务变成自动飞轮；复发时预案先行；预案采纳与 SOP 修订由人拍板</p><p><b>开放/复用价值：</b>开源案例库 schema、CBR 检索模板与复盘生成器，可挂接任意工单系统</p><p><b>当前进展：</b>方案设计完成，预置案例集制作与原型开发中，提交时附飞轮回放演示</p></div></div><aside class="speaker-notes"></aside><span class="footer-mark">ENF-09 · 11/12 · 参赛简介</span></section>
+<section class="slide slide--dark" id="s12" aria-label="第12屏"><div class="hazbar"></div><div class="slide-content"><div class="two-col"><div data-reveal><p class="eyebrow">REVIEW // 你的审核位</p><p style="font-size:var(--h2-size);font-weight:800;line-height:1.12;max-width:14ch">看完这一份，<span class="accent">留下三句话</span></p></div><div class="checklist" data-reveal><div class="chk"><b>01</b><strong>档案室的气质是否成立？</strong></div><div class="chk"><b>02</b><strong>"飞轮"叙事是否讲清楚了？</strong></div><div class="chk"><b>03</b><strong>作为 M1-B 收官模块，要不要并回 M1-B 的 deck？</strong></div></div></div><p class="lede" data-reveal>审核结论：☐ 转正式 PPT　☐ 修改后再审　☐ 冻结为模块　（按 N 看演讲备注）</p></div><aside class="speaker-notes"></aside><span class="footer-mark">ENF-09 · 12/12 · 你的审核位</span></section></main><nav class="present-nav"><button id="pv" aria-label="上一页">←</button><span class="slide-count" id="sc">1 / 12</span><button id="nx" aria-label="下一页">→</button></nav><script>
 'use strict';
 class PC{constructor(){this.slides=[...document.querySelectorAll('.slide')];this.index=0;this.lock=false;
  this.p=document.querySelector('#pf');this.c=document.querySelector('#sc');
  this.ob=new IntersectionObserver(e=>this.on(e),{threshold:.62})}
- start(){this.slides.forEach(s=>this.ob.observe(s));
-  document.querySelector('#pv').addEventListener('click',()=>this.go(this.index-1));
-  document.querySelector('#nx').addEventListener('click',()=>this.go(this.index+1));
-  document.addEventListener('keydown',e=>this.k(e));
-  document.addEventListener('wheel',e=>this.w(e),{passive:true});
-  this.go(this.index,false)}
- on(es){const v=es.find(x=>x.isIntersecting);if(!v)return;this.index=this.slides.indexOf(v.target);
-  this.slides.forEach((s,i)=>s.classList.toggle('is-active',i===this.index));this.u()}
- k(e){const n=e.key.toLowerCase();
-  if(['arrowright','arrowdown','pagedown',' '].includes(n)){e.preventDefault();this.go(this.index+1)}
-  else if(['arrowleft','arrowup','pageup'].includes(n)){e.preventDefault();this.go(this.index-1)}
-  else if(e.key==='Home')this.go(0);else if(e.key==='End')this.go(this.slides.length-1);
-  else if(n==='n')document.body.classList.toggle('show-notes')}
- w(e){if(this.lock||Math.abs(e.deltaY)<18)return;this.lock=true;
-  this.go(this.index+(e.deltaY>0?1:-1));setTimeout(()=>this.lock=false,520)}
- go(i,s=true){this.index=Math.max(0,Math.min(this.slides.length-1,i));
-  this.slides[this.index].scrollIntoView({behavior:s?'smooth':'auto',block:'start'});this.u()}
- u(){this.c.textContent=`${this.index+1} / ${this.slides.length}`;
-  this.p.style.width=`${((this.index+1)/this.slides.length)*100}%`;
-  history.replaceState(null,'',`#s${this.index+1}`)}}
+start(){this.slides.forEach(s=>this.ob.observe(s));
+ document.querySelector('#pv').addEventListener('click',()=>this.go(this.index-1));
+ document.querySelector('#nx').addEventListener('click',()=>this.go(this.index+1));
+ document.addEventListener('keydown',e=>this.k(e));
+ document.addEventListener('wheel',e=>this.w(e),{passive:true});
+ this.go(this.index,false)}
+on(es){const v=es.find(x=>x.isIntersecting);if(!v)return;this.index=this.slides.indexOf(v.target);
+ this.slides.forEach((s,i)=>s.classList.toggle('is-active',i===this.index));this.u()}
+k(e){const n=e.key.toLowerCase();
+ if(['arrowright','arrowdown','pagedown',' '].includes(n)){e.preventDefault();this.go(this.index+1)}
+ else if(['arrowleft','arrowup','pageup'].includes(n)){e.preventDefault();this.go(this.index-1)}
+ else if(e.key==='Home')this.go(0);else if(e.key==='End')this.go(this.slides.length-1);
+ else if(n==='n')document.body.classList.toggle('show-notes')}
+w(e){if(this.lock||Math.abs(e.deltaY)<18)return;this.lock=true;
+ this.go(this.index+(e.deltaY>0?1:-1));setTimeout(()=>this.lock=false,520)}
+go(i,s=true){this.index=Math.max(0,Math.min(this.slides.length-1,i));
+ this.slides[this.index].scrollIntoView({behavior:s?'smooth':'auto',block:'start'});this.u()}
+u(){this.c.textContent=`${this.index+1} / ${this.slides.length}`;
+ this.p.style.width=`${((this.index+1)/this.slides.length)*100}%`;
+ history.replaceState(null,'',`#s${this.index+1}`)}}
 const c=new PC(),h=Number(location.hash.replace('#s',''));
 if(Number.isInteger(h)&&h>=1)c.index=h-1;c.start();
 </script></body></html>
