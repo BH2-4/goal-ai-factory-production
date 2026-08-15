@@ -1,10 +1,10 @@
-// deck_b31.js — 齐途 QiPlan（10 页提交版）
+// deck_b31.js — Kit Pilot（10 页提交版）
 module.exports.build = function (pres, theme, Hp) {
   const { badge, header, cover, statCards, flowRow, panel, dutyTable, milestones } = Hp;
 
   cover(pres, theme, {
     kicker: "GOAI 世界人工智能开源大赛 · 无界应用赛道 · AI+工业制造",
-    title: "齐途 QiPlan",
+    title: "Kit Pilot",
     subtitle: "机加厂齐套核算与插单冲突解释智能体",
     oneline: "求解器负责算数、大模型负责说话：齐套核算、可行排产、被延订单的冲突解释与动作包，插单全链 30 秒。",
     tags: ["插单冲突解释", "LLM 零数值契约", "动作包交付"],
@@ -111,7 +111,7 @@ module.exports.build = function (pres, theme, Hp) {
 
   s = pres.addSlide(); s.background = { color: theme.primary };
   s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 0, w: Hp.W, h: 0.12, fill: { color: theme.accent } });
-  s.addText("齐途 QiPlan", { x: 0.7, y: 1.7, w: 8.6, h: 0.8, fontSize: 30, fontFace: Hp.FONT, color: "FFFFFF", bold: true });
+  s.addText("Kit Pilot", { x: 0.7, y: 1.7, w: 8.6, h: 0.8, fontSize: 30, fontFace: Hp.FONT, color: "FFFFFF", bold: true });
   s.addText("求解器算数，大模型说话，计划员签字。", { x: 0.7, y: 2.55, w: 8.6, h: 0.5, fontSize: 16, fontFace: Hp.FONT, color: theme.light });
   s.addText([
     { text: "数字可复算，解释可点开，交付是动作包。", options: { fontSize: 13, fontFace: Hp.FONT, color: "E8ECF0", breakLine: true } },

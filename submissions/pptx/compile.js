@@ -11,7 +11,7 @@ const DECKS = [
   {
     mod: require("./deck_b31"),
     theme: { primary: "16324F", secondary: "2D4A6B", accent: "2563EB", light: "A8C4E8", bg: "F5F7FA" },
-    out: "../../submissions/初赛提交_B31_齐途.pptx", name: "B31 齐途"
+    out: "../../submissions/packages/B31_KitPilot/初赛提交_B31_KitPilot.pptx", name: "B31 Kit Pilot"
   },
   {
     mod: require("./deck_b21"),

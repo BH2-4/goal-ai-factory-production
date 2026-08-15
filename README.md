@@ -41,7 +41,7 @@ prds/               # 9 份 MVP PRD（产出中）
 | 文件夹 | 内容 |
 |---|---|
 | `submissions/packages/B12_安灯中枢/` | 初赛三件套（简介/PPT/PDF）+ 最简PRD_安灯中枢 + 后续思路补充说明 |
-| `submissions/packages/B31_齐途/` | 初赛三件套 + 最简PRD_齐途 + 后续思路补充说明 |
+| `submissions/packages/B31_KitPilot/` | 初赛三件套 + 最简PRD_KitPilot + 后续思路补充说明 |
 | `submissions/packages/B21_气脉助手/` | 初赛三件套 + 最简PRD_气脉助手 + 后续思路补充说明 |
 
 **给三位提交人的最短路径**：打开自己文件夹 → `.md` 里复制 500 字简介 → 官网提交简介 + PPT/PDF → 8.16 23:59 前。
