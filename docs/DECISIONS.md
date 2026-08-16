@@ -85,3 +85,8 @@
 - **结论**：确定层（齐套/OR-Tools/约束日志）保持 Python 并封装为 MCP server；编排与交互层采用 DeepSeek Harness（本地源码仓 rc.5，~/.dsh 已配 V4-Flash）；评测台用 deepseek-harness-sdk headless。热插拔三机制：patch HMR / MCP 配置热替换 / 会话内动态插件（注：官方无 "Creator 模式" 命名）。工具经 @deepseek-ai/dsh-mcp-client 以 mcp__kitpilot__* 暴露
 - **依据**：本地仓库文档深潜（tool-catalog/python-sdk/mcp-client/CLI reference 等 65 文件）+ 官方示例（jsonrpc-agent、mcp-memory）；用户指示采用 DeepSeek Harness 开发
 - **影响**：P0 Spike 改为——①启动 dsh web ②写 kitpilot MCP server hello world ③overlay 热接入验证 ④SDK headless 冒烟；风险对冲：判卷路径零 DSH 依赖
+
+## D-018 B31 架构定稿：网站产品 + DSH 引擎舱（L2 主体 / L3 bundle 尾）
+- **结论**：四叉定型——①Demo 主界面=自建工业级网站（计划员控制台+销售CTP问答端，React+AntD+FastAPI），交互六原则：表格优先/表单化澄清/色彩语义/数字可点开约束日志/键盘流可打印/确认即门禁；②定位=产品主、可安装 kitpilot bundle 作开源尾；③单人格「计划副驾」双面具（一套宪法提示，两端口注入不同上下文与技能）；④防错校验器在 Python 确定层内（出引擎前 diff），不依赖 DSH 钩子。DSH 内仅创建：profile/人格提示/2 技能文档/mcp-client overlay；确定层（齐套/OR-Tools/约束日志/评测台）零 DSH 依赖
+- **依据**：用户四问答复（2026-08-16）+ DSH 深潜事实（trace=执行证据、MCP 桥、preview 风险对冲）
+- **影响**：P0 Spike 步骤 2-4 不变（MCP server/热接入/SDK 冒烟）；P3 双端 UI 技术栈冻结
