@@ -80,3 +80,8 @@
 - **结论**：B31 正式名定为 **Kit Pilot**（full kit 齐套 × pilot 副驾——"求解器导航，计划员执飞"）。改名范围严格限定 B31 域：packages/B31_KitPilot 五件套、最简PRD、补充文档、deck_b31 构建源、compile.js 之 B31 行、README 之 B31 行、审计文档与补充说明中的 B31 段落；历史决议、退役归档、B12/B21 域文件一律未动。自本轮起进入 B31 专线模式：提交仅触碰 B31 相关内容
 - **依据**：用户命名讨论（2026-08-15）——英文双词组合方向（参考 Random Play / Cosmic Links 气质），四候选中选定 Kit Pilot
 - **影响**：B31 全部对外材料（简介/PPT/PDF/PRD）名称统一；简介 492 字复验通过
+
+## D-017 B31 技术选型敲定 v1.1：DeepSeek Harness 作编排层（MCP 桥分层）
+- **结论**：确定层（齐套/OR-Tools/约束日志）保持 Python 并封装为 MCP server；编排与交互层采用 DeepSeek Harness（本地源码仓 rc.5，~/.dsh 已配 V4-Flash）；评测台用 deepseek-harness-sdk headless。热插拔三机制：patch HMR / MCP 配置热替换 / 会话内动态插件（注：官方无 "Creator 模式" 命名）。工具经 @deepseek-ai/dsh-mcp-client 以 mcp__kitpilot__* 暴露
+- **依据**：本地仓库文档深潜（tool-catalog/python-sdk/mcp-client/CLI reference 等 65 文件）+ 官方示例（jsonrpc-agent、mcp-memory）；用户指示采用 DeepSeek Harness 开发
+- **影响**：P0 Spike 改为——①启动 dsh web ②写 kitpilot MCP server hello world ③overlay 热接入验证 ④SDK headless 冒烟；风险对冲：判卷路径零 DSH 依赖
