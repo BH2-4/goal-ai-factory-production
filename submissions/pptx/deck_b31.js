@@ -1,5 +1,7 @@
 // deck_b31.js — Kit Pilot（10 页提交版）
 module.exports.build = function (pres, theme, Hp) {
+  pres.title = "Kit Pilot——机加厂齐套核算与插单冲突解释智能体";
+  pres.author = "Kit Pilot";
   const { badge, header, cover, statCards, flowRow, panel, dutyTable, milestones } = Hp;
 
   cover(pres, theme, {
