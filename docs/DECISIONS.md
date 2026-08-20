@@ -90,3 +90,8 @@
 - **结论**：四叉定型——①Demo 主界面=自建工业级网站（计划员控制台+销售CTP问答端，React+AntD+FastAPI），交互六原则：表格优先/表单化澄清/色彩语义/数字可点开约束日志/键盘流可打印/确认即门禁；②定位=产品主、可安装 kitpilot bundle 作开源尾；③单人格「计划副驾」双面具（一套宪法提示，两端口注入不同上下文与技能）；④防错校验器在 Python 确定层内（出引擎前 diff），不依赖 DSH 钩子。DSH 内仅创建：profile/人格提示/2 技能文档/mcp-client overlay；确定层（齐套/OR-Tools/约束日志/评测台）零 DSH 依赖
 - **依据**：用户四问答复（2026-08-16）+ DSH 深潜事实（trace=执行证据、MCP 桥、preview 风险对冲）
 - **影响**：P0 Spike 步骤 2-4 不变（MCP server/热接入/SDK 冒烟）；P3 双端 UI 技术栈冻结
+
+## D-019 多 Agent 协同仓略与 kit-pilot 建仓
+- **结论**：三层协同——协调仓=指挥部（Issues 任务总线/决策上溯，不放代码）；作品仓=作战区（kit-pilot 已建：Public，https://github.com/BH2-4/kit-pilot，含 AGENTS.md 宪法层/CI 判卷门禁 eval-gate/三类 Issue 模板/P0 分层骨架）；AGENTS.md 使任何编码代理（ZCode/Codex/Claude Code/DSH）进入即受同一宪法约束。协同四机制：Issues 任务总线、PR+人审=宏门禁工程化、CI=评测门禁（判卷不绿不合）、宪法变更走 Issue 人拍板
+- **依据**：用户指示以 GitHub 实现多 Agent 协同；可见性 Public/先建 kit-pilot 由用户选定（2026-08-16）
+- **影响**：B31 开发全部在 kit-pilot 仓进行；andoncop/airfix 留待队友按同模板自建（模板即 kit-pilot 仓骨架）
